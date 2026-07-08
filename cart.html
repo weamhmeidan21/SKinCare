@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart - Rose Skincare</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --bg-color: #fffafb; --white: #ffffff; --text-color: #5a4c4c; --dark-pink: #d6858a; --card-bg: #fdf5f6; --border-color: #e0d0d0; --shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        body.dark-mode { --bg-color: #1a1a1a; --white: #2c2c2c; --text-color: #e0e0e0; --dark-pink: #e690a0; --card-bg: #3a3a3a; --border-color: #555; --shadow: 0 10px 30px rgba(255,255,255,0.05); }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background: var(--bg-color); color: var(--text-color); transition: 0.3s; padding: 20px; display: flex; justify-content: center; }
+        .container { max-width: 1000px; width: 100%; }
+        
+        .top-header { display: flex; justify-content: space-between; align-items: center; background: var(--white); padding: 15px 30px; border-radius: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 30px; }
+        .top-header .logo { font-family: 'Playfair Display'; font-size: 28px; font-weight: 700; color: #b25b60; }
+        .top-header .logo i { color: #f7b2b7; }
+        .header-actions { display: flex; align-items: center; gap: 15px; }
+        .header-links a { color: var(--text-color); text-decoration: none; font-weight: 500; margin: 0 10px; transition: 0.3s; }
+        .header-links a:hover { color: var(--dark-pink); }
+        .theme-btn, .lang-switch-btn { background: transparent; border: 1px solid var(--border-color); padding: 5px 15px; border-radius: 20px; cursor: pointer; font-weight: 500; font-size: 14px; color: var(--text-color); }
+        
+        .cart-content { background: var(--white); border-radius: 20px; padding: 30px; box-shadow: var(--shadow); }
+        .cart-title { font-family: 'Playfair Display'; font-size: 28px; color: var(--text-color); margin-bottom: 20px; }
+        .cart-item { display: flex; align-items: center; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid var(--border-color); flex-wrap: wrap; gap: 10px; }
+        .cart-item:last-child { border-bottom: none; }
+        .item-info { display: flex; align-items: center; gap: 15px; flex: 1; min-width: 150px; }
+        .item-info img { width: 60px; height: 60px; object-fit: contain; background: var(--card-bg); border-radius: 10px; padding: 5px; }
+        .item-info h4 { font-size: 16px; color: var(--text-color); margin-bottom: 3px; }
+        .item-info span { color: var(--dark-pink); font-weight: 600; font-size: 14px; }
+        .item-qty { display: flex; align-items: center; gap: 10px; }
+        .item-qty button { width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--border-color); background: transparent; color: var(--text-color); cursor: pointer; }
+        .item-qty span { font-weight: 500; width: 20px; text-align: center; }
+        .item-total { font-weight: 600; color: var(--dark-pink); min-width: 60px; text-align: right; }
+        
+        .summary-section { margin-top: 25px; border-top: 2px solid var(--border-color); padding-top: 20px; text-align: right; }
+        .summary-row { display: flex; justify-content: flex-end; gap: 20px; padding: 5px 0; font-size: 16px; color: var(--text-color); }
+        .summary-row .label { font-weight: 500; }
+        .summary-row .value { font-weight: 600; min-width: 80px; text-align: right; }
+        .shipping-discount { color: #2e7d32; font-size: 14px; display: block; margin-top: -5px; }
+        body.dark-mode .shipping-discount { color: #66bb6a; }
+        .total-row { font-size: 22px; font-weight: 700; color: var(--dark-pink); margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border-color); }
+        
+        /* زر الدفع */
+        .btn-checkout { display: inline-block; margin-top: 20px; background: var(--dark-pink); color: white; padding: 14px 40px; border: none; border-radius: 30px; font-size: 16px; font-weight: 600; cursor: pointer; text-decoration: none; transition: 0.3s; }
+        .btn-checkout:hover { background: #b56a6f; transform: translateY(-2px); }
+        
+        .empty-msg { text-align: center; color: #999; padding: 40px 0; font-size: 18px; }
+        .empty-msg a { color: var(--dark-pink); text-decoration: none; font-weight: bold; }
+        
+        @media (max-width: 600px) { .top-header { flex-direction: column; gap: 15px; } .header-links { display: flex; flex-wrap: wrap; justify-content: center; } .cart-item { flex-direction: column; align-items: flex-start; } .item-total { text-align: left; width: 100%; } .summary-row { justify-content: space-between; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="top-header">
+            <div class="logo"><i class="fas fa-seedling"></i> ROSE</div>
+            <div class="header-actions">
+                <div class="header-links">
+                    <a href="index.html" id="linkHome">Home</a>
+                    <a href="products.html" id="linkProducts">Products</a>
+                    <a href="offers.html" id="linkOffers" style="color: #e74c3c;"><i class="fas fa-tags"></i> Offers</a>
+                    <a href="wishlist.html" id="linkWishlist"><i class="fas fa-heart"></i> Wishlist</a>
+                    <a href="cart.html" id="linkCart"><i class="fas fa-shopping-cart"></i> Cart</a>
+                    <a href="login.html" id="linkLogin"><i class="fas fa-user"></i> Login</a>
+                </div>
+                <button class="lang-switch-btn" onclick="toggleLang()" id="langBtn">🌐</button>
+                <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
+            </div>
+        </header>
+
+        <div class="cart-content">
+            <h2 class="cart-title" id="cartTitle">Your Shopping Cart</h2>
+            <div id="cartItems"></div>
+
+            <div class="summary-section" id="summarySection">
+                <div class="summary-row"><span class="label" id="subLabel">Subtotal</span> <span class="value" id="subValue">0.00 JD</span></div>
+                <div class="summary-row"><span class="label" id="shipLabel">Shipping</span> <span class="value" id="shipValue">3.00 JD</span></div>
+                <span class="shipping-discount" id="shipDiscount" style="display:none;"></span>
+                <div class="summary-row total-row"><span class="label" id="totalLabel">Total</span> <span class="value" id="totalValue">0.00 JD</span></div>
+                
+                <!-- زر الدفع المحمي -->
+                <button class="btn-checkout" onclick="handleCheckout()" id="checkoutBtn">Proceed to Checkout</button>
+            </div>
+            
+            <div class="empty-msg" id="emptyMsg" style="display:none;">
+                <i class="fas fa-shopping-cart" style="font-size:40px; color:#ddd; margin-bottom:10px; display:block;"></i>
+                <span id="emptyText">Your cart is empty.</span><br>
+                <a href="products.html" id="emptyLink">Shop now</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===== بيانات السلة الوهمية =====
+        let cartItems = [
+            { name: "Rose Glow Serum", img: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=150&auto=format&fit=crop", price: 8.90, qty: 1 },
+            { name: "Hydrating Moisturizer", img: "https://images.unsplash.com/photo-1608248597279-f99d160bfbc8?w=150&auto=format&fit=crop", price: 9.50, qty: 2 }
+        ];
+
+        function renderCart() {
+            const container = document.getElementById('cartItems');
+            const emptyMsg = document.getElementById('emptyMsg');
+            const summary = document.getElementById('summarySection');
+            
+            container.innerHTML = '';
+            if (cartItems.length === 0) { emptyMsg.style.display = 'block'; summary.style.display = 'none'; return; }
+            emptyMsg.style.display = 'none'; summary.style.display = 'block';
+            
+            let subtotal = 0;
+            cartItems.forEach((item, index) => {
+                const total = item.price * item.qty; subtotal += total;
+                const div = document.createElement('div'); div.className = 'cart-item';
+                div.innerHTML = `
+                    <div class="item-info"><img src="${item.img}" alt="${item.name}"><div><h4>${item.name}</h4><span>${item.price.toFixed(2)} JD</span></div></div>
+                    <div class="item-qty"><button onclick="changeQty(${index}, -1)">-</button><span>${item.qty}</span><button onclick="changeQty(${index}, 1)">+</button></div>
+                    <div class="item-total">${total.toFixed(2)} JD</div>
+                `;
+                container.appendChild(div);
+            });
+            updateSummary(subtotal);
+        }
+
+        function changeQty(index, change) {
+            if (cartItems[index].qty + change < 1) return;
+            cartItems[index].qty += change;
+            renderCart();
+        }
+
+        function updateSummary(subtotal) {
+            const shippingCost = subtotal >= 25 ? 0 : 3.00;
+            const total = subtotal + shippingCost;
+            document.getElementById('subValue').innerText = subtotal.toFixed(2) + ' JD';
+            const shipValue = document.getElementById('shipValue');
+            const shipDiscount = document.getElementById('shipDiscount');
+            if (shippingCost === 0) {
+                shipValue.innerText = '0.00 JD';
+                shipDiscount.style.display = 'block';
+                shipDiscount.innerText = '🎉 You saved 3.00 JD on shipping! (Free delivery over 25 JD)';
+            } else {
+                shipValue.innerText = shippingCost.toFixed(2) + ' JD';
+                shipDiscount.style.display = 'none';
+            }
+            document.getElementById('totalValue').innerText = total.toFixed(2) + ' JD';
+        }
+
+        // ===== الحماية الصارمة لزر الدفع =====
+        function handleCheckout() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            
+            // إذا لم يكن مسجلاً للدخول، يتم توجيهه فوراً لصفحة الدخول دون أي رسالة
+            if (isLoggedIn !== 'true') {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // إذا كان مسجلاً للدخول، نوجهه لصفحة الدفع
+            window.location.href = 'checkout.html';
+        }
+
+        // ===== ترجمة الصفحة =====
+        const translations = {
+            en: { home: "Home", products: "Products", offers: "Offers", wishlist: "Wishlist", cart: "Cart", title: "Your Shopping Cart", sub: "Subtotal", ship: "Shipping", total: "Total", empty: "Your cart is empty.", link: "Shop now", btn: "Proceed to Checkout", langBtn: "🌐" },
+            ar: { home: "الرئيسية", products: "المنتجات", offers: "خصومات", wishlist: "المفضلة", cart: "السلة", title: "سلة التسوق الخاصة بك", sub: "المجموع الفرعي", ship: "الشحن", total: "الإجمالي", empty: "سلة التسوق فارغة.", link: "تسوق الآن", btn: "الذهاب للدفع", langBtn: "🌐" }
+        };
+        let currentLang = 'en';
+
+        function toggleLang() {
+            currentLang = currentLang === 'en' ? 'ar' : 'en';
+            const t = translations[currentLang];
+            document.getElementById('linkHome').innerText = t.home; document.getElementById('linkProducts').innerText = t.products;
+            document.getElementById('linkOffers').innerHTML = `<i class="fas fa-tags"></i> ${t.offers}`;
+            document.getElementById('linkWishlist').innerHTML = `<i class="fas fa-heart"></i> ${t.wishlist}`;
+            document.getElementById('linkCart').innerHTML = `<i class="fas fa-shopping-cart"></i> ${t.cart}`;
+            document.getElementById('cartTitle').innerText = t.title;
+            document.getElementById('subLabel').innerText = t.sub; document.getElementById('shipLabel').innerText = t.ship;
+            document.getElementById('totalLabel').innerText = t.total; document.getElementById('emptyText').innerText = t.empty;
+            document.getElementById('emptyLink').innerText = t.link; document.getElementById('checkoutBtn').innerText = t.btn;
+            document.getElementById('langBtn').innerText = t.langBtn;
+        }
+
+        // ===== الدارك مود =====
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const btn = document.getElementById('themeBtn');
+            if (document.body.classList.contains('dark-mode')) { btn.innerHTML = '☀️'; localStorage.setItem('theme', 'dark'); }
+            else { btn.innerHTML = '🌙'; localStorage.setItem('theme', 'light'); }
+        }
+
+        // ===== التحميل الأولي =====
+        window.onload = function() {
+            renderCart();
+            if (localStorage.getItem('theme') === 'dark') { document.body.classList.add('dark-mode'); document.getElementById('themeBtn').innerHTML = '☀️'; }
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Rose Skincare</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root { --dark-pink: #d6858a; --text-color: #5a4c4c; --white: #ffffff; --bg-color: #fffafb; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background: var(--bg-color); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+        #loginScreen { background: var(--white); padding: 50px; border-radius: 20px; max-width: 400px; width: 100%; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        #loginScreen h2 { color: var(--text-color); margin-bottom: 20px; }
+        .login-group { margin-bottom: 15px; text-align: left; }
+        .login-group label { display: block; font-weight: 500; color: var(--text-color); font-size: 14px; margin-bottom: 5px; }
+        .login-group input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; outline: none; }
+        .login-btn { background: var(--dark-pink); color: white; border: none; padding: 12px; width: 100%; border-radius: 10px; font-weight: 600; cursor: pointer; margin-top: 10px; }
+        #errorMsg { color: #e74c3c; font-size: 13px; margin-top: 10px; display: none; }
+        
+        /* تخطيط الأدمن (مبسط) */
+        #adminPanel { width: 100%; max-width: 900px; background: white; padding: 40px; border-radius: 20px; display: none; }
+        .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin: 20px 0; }
+        .stat-box { background: #fdf5f6; padding: 20px; border-radius: 15px; text-align: center; }
+        .stat-box h3 { font-size: 13px; color: #888; }
+        .stat-box .val { font-size: 24px; font-weight: bold; color: var(--text-color); }
+        @media (max-width: 600px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+    </style>
+</head>
+<body>
+    <!-- شاشة الدخول -->
+    <div id="loginScreen">
+        <h2>Admin Login</h2>
+        <div class="login-group"><label>Email</label><input type="email" id="adminEmail" placeholder="admin@rose.com"></div>
+        <div class="login-group"><label>Password</label><input type="password" id="adminPassword" placeholder="********"></div>
+        <button class="login-btn" onclick="adminLogin()">Login</button>
+        <div id="errorMsg">Incorrect email or password!</div>
+    </div>
+
+    <!-- لوحة التحكم -->
+    <div id="adminPanel">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <h2 style="color:#5a4c4c;"><i class="fas fa-leaf" style="color:#d6858a;"></i> Admin Dashboard</h2>
+            <button onclick="adminLogout()" style="background:#e74c3c; color:white; border:none; padding:8px 20px; border-radius:20px; cursor:pointer;">Logout</button>
+        </div>
+        <div class="stats">
+            <div class="stat-box"><h3>Total Sales</h3><div class="val">1,240 JD</div></div>
+            <div class="stat-box"><h3>Orders</h3><div class="val">156</div></div>
+            <div class="stat-box"><h3>Customers</h3><div class="val">180</div></div>
+            <div class="stat-box"><h3>Products</h3><div class="val">28</div></div>
+        </div>
+        <p style="text-align:center; color:#888; font-size:14px; margin-top:20px;">You can manage products and view orders from here.</p>
+    </div>
+
+    <script>
+        const ADMIN_EMAIL = "admin@rose.com";
+        const ADMIN_PASSWORD = "123456";
+
+        function adminLogin() {
+            const e = document.getElementById('adminEmail').value, p = document.getElementById('adminPassword').value;
+            if(e === ADMIN_EMAIL && p === ADMIN_PASSWORD) {
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('adminPanel').style.display = 'block';
+                document.getElementById('errorMsg').style.display = 'none';
+            } else {
+                document.getElementById('errorMsg').style.display = 'block';
+            }
+        }
+        function adminLogout() {
+            document.getElementById('loginScreen').style.display = 'block';
+            document.getElementById('adminPanel').style.display = 'none';
+            document.getElementById('errorMsg').style.display = 'none';
+        }
+        document.addEventListener("DOMContentLoaded", function() { document.getElementById('adminPanel').style.display = 'none'; });
+    </script>
+</body>
+</html>

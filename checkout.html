@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Rose Skincare</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #fffafb; --white: #ffffff; --text-color: #5a4c4c; --dark-pink: #d6858a;
+            --card-bg: #fdf5f6; --border-color: #e0d0d0; --shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+        body.dark-mode {
+            --bg-color: #1a1a1a; --white: #2c2c2c; --text-color: #e0e0e0; --dark-pink: #e690a0;
+            --card-bg: #3a3a3a; --border-color: #555; --shadow: 0 10px 30px rgba(255,255,255,0.05);
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background: var(--bg-color); color: var(--text-color); transition: background 0.3s, color 0.3s; padding: 20px; display: flex; justify-content: center; }
+        .container { max-width: 1200px; width: 100%; }
+        
+        /* ===== الشريط العلوي الموحد ===== */
+        .top-header {
+            display: flex; justify-content: space-between; align-items: center;
+            background: var(--white); padding: 15px 30px; border-radius: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 30px;
+        }
+        .top-header .logo { font-family: 'Playfair Display'; font-size: 28px; font-weight: 700; color: #b25b60; }
+        .top-header .logo i { color: #f7b2b7; }
+        .header-actions { display: flex; align-items: center; gap: 15px; }
+        .header-links a { color: var(--text-color); text-decoration: none; font-weight: 500; margin: 0 10px; transition: 0.3s; }
+        .header-links a:hover { color: var(--dark-pink); }
+        .theme-btn, .lang-switch-btn {
+            background: transparent; border: 1px solid var(--border-color); padding: 5px 15px; border-radius: 20px;
+            cursor: pointer; font-weight: 500; font-size: 14px; color: var(--text-color); transition: 0.3s;
+        }
+        .theme-btn:hover, .lang-switch-btn:hover { border-color: var(--dark-pink); }
+
+        /* ===== تخطيط الدفع ===== */
+        .checkout-layout { display: flex; gap: 30px; flex-wrap: wrap; }
+        .box { background: var(--white); border-radius: 20px; padding: 35px; box-shadow: var(--shadow); flex: 1; min-width: 320px; }
+        .box h2 { font-family: 'Playfair Display', serif; color: var(--text-color); margin-bottom: 25px; font-size: 24px; }
+        .box h3 { color: var(--text-color); margin-bottom: 15px; font-size: 18px; }
+
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-weight: 500; margin-bottom: 6px; color: var(--text-color); font-size: 14px; }
+        .form-group input { width: 100%; padding: 12px 15px; border: 1px solid var(--border-color); border-radius: 10px; outline: none; font-size: 14px; transition: 0.3s; background: var(--white); color: var(--text-color); }
+        .form-group input:focus { border-color: var(--dark-pink); }
+
+        .map-container { width: 100%; height: 250px; border-radius: 15px; overflow: hidden; margin-top: 15px; border: 1px solid var(--border-color); }
+        .map-container iframe { width: 100%; height: 100%; border: 0; }
+        .delivery-time-box { background: var(--card-bg); border-radius: 10px; padding: 15px; margin-top: 15px; border-left: 4px solid var(--dark-pink); }
+        .delivery-time-box p { font-size: 14px; color: var(--text-color); }
+        .delivery-time-box strong { color: var(--dark-pink); }
+
+        .payment-methods { display: flex; flex-direction: column; gap: 12px; margin-top: 15px; }
+        .payment-option { border: 2px solid var(--border-color); padding: 15px; border-radius: 12px; cursor: pointer; display: flex; align-items: center; gap: 15px; transition: 0.3s; background: var(--white); }
+        .payment-option:hover, .payment-option.active { border-color: var(--dark-pink); background: var(--card-bg); }
+        .payment-option input { accent-color: var(--dark-pink); width: 18px; height: 18px; cursor: pointer; }
+        .payment-option label { cursor: pointer; font-size: 15px; font-weight: 500; color: var(--text-color); display: flex; align-items: center; gap: 10px; }
+        .payment-option i { font-size: 20px; color: var(--dark-pink); width: 25px; text-align: center; }
+
+        .btn-place-order { background: var(--dark-pink); color: white; width: 100%; padding: 16px; border: none; border-radius: 12px; font-size: 18px; font-weight: 600; cursor: pointer; transition: 0.3s; margin-top: 25px; }
+        .btn-place-order:hover { background: #b56a6f; transform: translateY(-2px); }
+
+        .summary-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border-color); font-size: 15px; color: var(--text-color); }
+        .summary-row.total { border-top: 2px solid var(--dark-pink); padding-top: 15px; margin-top: 10px; font-size: 20px; font-weight: 700; color: var(--dark-pink); }
+        
+        @media (max-width: 768px) { .checkout-layout { flex-direction: column; } }
+        @media (max-width: 600px) {
+            .top-header { flex-direction: column; gap: 15px; }
+            .header-links { display: flex; flex-wrap: wrap; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- ===== الشريط العلوي ===== -->
+        <header class="top-header">
+            <div class="logo"><i class="fas fa-seedling"></i> ROSE</div>
+            <div class="header-actions">
+                <div class="header-links">
+                    <a href="index.html" id="linkHome">Home</a>
+                    <a href="products.html" id="linkProducts">Products</a>
+                    <a href="offers.html" id="linkOffers" style="color: #e74c3c;"><i class="fas fa-tags"></i> Offers</a>
+                    <a href="wishlist.html" id="linkWishlist"><i class="fas fa-heart"></i> Wishlist</a>
+                    <a href="cart.html" id="linkCart"><i class="fas fa-shopping-cart"></i> Cart</a>
+                </div>
+                <button class="lang-switch-btn" onclick="toggleLang()" id="langBtn">🌐 </button>
+                <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
+            </div>
+        </header>
+
+        <div class="checkout-layout">
+            <!-- ===== القسم الأيسر: تفاصيل العميل ===== -->
+            <div class="box" style="flex: 1.5;">
+                <h2 id="titleCheckout">Complete Your Order</h2>
+                
+                <form onsubmit="event.preventDefault(); alert('Order Placed Successfully!');">
+                    <div class="form-group">
+                        <label id="labelName">Full Name</label>
+                        <input type="text" id="inputName" required>
+                    </div>
+                    <div class="form-group">
+                        <label id="labelEmail">Email Address</label>
+                        <input type="email" id="inputEmail" placeholder="****@gmail.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label id="labelPhone">Phone Number</label>
+                        <input type="tel" id="inputPhone" placeholder="+970 59..." required>
+                    </div>
+                    <div class="form-group">
+                        <label id="labelAddress">Shipping Address</label>
+                        <input type="text" id="inputAddress" required>
+                    </div>
+                    
+                    <div class="delivery-time-box">
+                        <p id="deliveryText"><strong><i class="fas fa-truck"></i> Estimated Delivery:</strong> 2-3 Business Days</p>
+                    </div>
+
+                    <h3 id="mapTitle" style="margin-top: 25px;"></h3>
+                    <div class="map-container">
+                        <!-- خريطة Google Maps لفلسطين (القدس/رام الله) -->
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d27166.098312100696!2d35.2021523!3d31.9037616!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x151d30d37d4b2e35%3A0x3c10c29fb02cd8d2!2sRamallah!5e0!3m2!1sen!2s!4v1700000000000" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                    
+                    <h3 id="paymentTitle" style="margin-top: 25px;">Payment Method</h3>
+                    <div class="payment-methods">
+                        <label class="payment-option active" onclick="selectPayment(this)">
+                            <input type="radio" name="payment" value="card" checked> 
+                            <i class="fas fa-credit-card"></i> <span id="payCard">Credit / Debit Card</span>
+                        </label>
+                        <label class="payment-option" onclick="selectPayment(this)">
+                            <input type="radio" name="payment" value="cash"> 
+                            <i class="fas fa-money-bill-wave"></i> <span id="payCash">Cash on Delivery</span>
+                        </label>
+                        <label class="payment-option" onclick="selectPayment(this)">
+                            <input type="radio" name="payment" value="paypal"> 
+                            <i class="fab fa-paypal"></i> <span id="payPaypal">PayPal</span>
+                        </label>
+                    </div>
+                    <button type="submit" class="btn-place-order" id="btnPlaceOrder">Place Order (27.90 JD)</button>
+                </form>
+            </div>
+
+            <!-- ===== القسم الأيمن: ملخص الطلب ===== -->
+            <div class="box" style="flex: 1;">
+                <h2 id="summaryTitle">Order Summary</h2>
+                <div class="summary-row">
+                    <span id="item1Name">Rose Glow Serum (x1)</span> 
+                    <span style="color: var(--dark-pink);">8.90 JD</span>
+                </div>
+                <div class="summary-row">
+                    <span id="item2Name">Hydrating Moisturizer (x2)</span> 
+                    <span style="color: var(--dark-pink);">19.00 JD</span>
+                </div>
+                <div class="summary-row">
+                    <span id="subTotalLabel">Subtotal</span>
+                    <span>27.90 JD</span>
+                </div>
+                <div class="summary-row">
+                    <span id="shippingLabel">Shipping</span>
+                    <span id="shippingCost">Free</span>
+                </div>
+                <div class="summary-row total">
+                    <span id="totalLabel">Total</span>
+                    <span>27.90 JD</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===== وظائف الدفع =====
+        function selectPayment(element) {
+            document.querySelectorAll('.payment-option').forEach(el => el.classList.remove('active'));
+            element.classList.add('active');
+            element.querySelector('input[type="radio"]').checked = true;
+        }
+
+        // ===== ترجمة الصفحة =====
+        const translations = {
+            en: {
+                home: "Home", products: "Products", offers: "Offers", wishlist: "Wishlist", cart: "Cart",
+                title: "Complete Your Order", name: "Full Name", email: "Email Address", phone: "Phone Number",
+                address: "Shipping Address", delivery: "<strong><i class='fas fa-truck'></i> Estimated Delivery:</strong> 2-3 Business Days",
+                map: "🇵🇸 Our Location (Ramallah, Palestine)", payTitle: "Payment Method", card: "Credit / Debit Card",
+                cash: "Cash on Delivery", paypal: "PayPal", btn: "Place Order (27.90 JD)", sumTitle: "Order Summary",
+                it1: "Rose Glow Serum (x1)", it2: "Hydrating Moisturizer (x2)", sub: "Subtotal", ship: "Shipping",
+                shipCost: "Free", total: "Total", langBtn: "🌐 EN"
+            },
+            ar: {
+                home: "الرئيسية", products: "المنتجات", offers: "خصومات", wishlist: "المفضلة", cart: "السلة",
+                title: "إكمال الطلب", name: "الاسم الكامل", email: "البريد الإلكتروني", phone: "رقم الهاتف",
+                address: "عنوان الشحن", delivery: "<strong><i class='fas fa-truck'></i> وقت التوصيل المتوقع:</strong> 2-3 أيام عمل",
+                map: "🇵🇸 موقعنا (رام الله، فلسطين)", payTitle: "طرق الدفع", card: "بطاقة ائتمان / خصم",
+                cash: "الدفع عند الاستلام", paypal: "باي بال (PayPal)", btn: "تأكيد الطلب (27.90 JD)", sumTitle: "ملخص الطلب",
+                it1: "سيروم الورد (x1)", it2: "مرطب الترطيب (x2)", sub: "المجموع الفرعي", ship: "الشحن",
+                shipCost: "مجاني", total: "الإجمالي", langBtn: "🌐"
+            }
+        };
+        let currentLang = 'en';
+
+        function toggleLang() {
+            currentLang = currentLang === 'en' ? 'ar' : 'en';
+            const t = translations[currentLang];
+            
+            document.getElementById('linkHome').innerText = t.home;
+            document.getElementById('linkProducts').innerText = t.products;
+            document.getElementById('linkOffers').innerHTML = `<i class="fas fa-tags"></i> ${t.offers}`;
+            document.getElementById('linkWishlist').innerHTML = `<i class="fas fa-heart"></i> ${t.wishlist}`;
+            document.getElementById('linkCart').innerHTML = `<i class="fas fa-shopping-cart"></i> ${t.cart}`;
+            
+            document.getElementById('titleCheckout').innerText = t.title;
+            document.getElementById('labelName').innerText = t.name;
+            document.getElementById('labelEmail').innerText = t.email;
+            document.getElementById('labelPhone').innerText = t.phone;
+            document.getElementById('labelAddress').innerText = t.address;
+            document.getElementById('deliveryText').innerHTML = t.delivery;
+            document.getElementById('mapTitle').innerText = t.map;
+            document.getElementById('paymentTitle').innerText = t.payTitle;
+            document.getElementById('payCard').innerText = t.card;
+            document.getElementById('payCash').innerText = t.cash;
+            document.getElementById('payPaypal').innerText = t.paypal;
+            document.getElementById('btnPlaceOrder').innerText = t.btn;
+            document.getElementById('summaryTitle').innerText = t.sumTitle;
+            document.getElementById('item1Name').innerText = t.it1;
+            document.getElementById('item2Name').innerText = t.it2;
+            document.getElementById('subTotalLabel').innerText = t.sub;
+            document.getElementById('shippingLabel').innerText = t.ship;
+            document.getElementById('shippingCost').innerText = t.shipCost;
+            document.getElementById('totalLabel').innerText = t.total;
+            document.getElementById('langBtn').innerText = t.langBtn;
+        }
+
+        // ===== الدارك مود =====
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const btn = document.getElementById('themeBtn');
+            if (document.body.classList.contains('dark-mode')) {
+                btn.innerHTML = '☀️';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                btn.innerHTML = '🌙';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // ===== التحميل الأولي =====
+        window.onload = function() {
+            if (localStorage.getItem('theme') === 'dark') {
+                document.body.classList.add('dark-mode');
+                document.getElementById('themeBtn').innerHTML = '☀️';
+            }
+            // تحميل اللغة المحفوظة من رابط السلة
+            const params = new URLSearchParams(window.location.search);
+            const lang = params.get('lang');
+            if (lang === 'ar' || lang === 'en') {
+                currentLang = lang;
+                toggleLang();
+            }
+            // ===== حماية صفحة الدفع =====
+
+    // التحقق من حالة تسجيل الدخول
+    if (localStorage.getItem('isLoggedIn') !== 'true') {
+        alert('You must be logged in to proceed to checkout!');
+        window.location.href = 'login.html';
+        return; // يوقف تنفيذ باقي الكود
+    }
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Wishlist - Rose Skincare</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --bg-color: #fffafb; --white: #ffffff; --text-color: #5a4c4c; --dark-pink: #d6858a; --card-bg: #fdf5f6; --border-color: #e0d0d0; }
+        body.dark-mode { --bg-color: #1a1a1a; --white: #2c2c2c; --text-color: #e0e0e0; --dark-pink: #e690a0; --card-bg: #3a3a3a; --border-color: #555; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background: var(--bg-color); color: var(--text-color); transition: 0.3s; padding: 20px; display: flex; justify-content: center; min-height: 100vh; }
+        .container { max-width: 1200px; width: 100%; }
+        .top-header { display: flex; justify-content: space-between; align-items: center; background: var(--white); padding: 15px 30px; border-radius: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 30px; }
+        .top-header .logo { font-family: 'Playfair Display'; font-size: 28px; font-weight: 700; color: #b25b60; }
+        .top-header .logo i { color: #f7b2b7; }
+        .header-actions { display: flex; align-items: center; gap: 15px; }
+        .header-links a { color: var(--text-color); text-decoration: none; font-weight: 500; margin: 0 10px; transition: 0.3s; }
+        .header-links a:hover { color: var(--dark-pink); }
+        .theme-btn, .lang-switch-btn { background: transparent; border: 1px solid var(--border-color); padding: 5px 15px; border-radius: 20px; cursor: pointer; font-weight: 500; font-size: 14px; color: var(--text-color); }
+        .section-title { text-align: center; font-family: 'Playfair Display'; font-size: 28px; color: var(--text-color); margin-bottom: 20px; }
+        .wishlist-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+        .wishlist-item { background: var(--white); border-radius: 15px; padding: 20px; text-align: center; position: relative; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: 0.3s; }
+        .wishlist-item:hover { transform: translateY(-5px); }
+        .wishlist-item img { max-width: 100%; height: 150px; object-fit: contain; mix-blend-mode: multiply; }
+        .wishlist-item h3 { font-size: 16px; color: var(--text-color); margin: 10px 0; }
+        .wishlist-item .price { color: var(--dark-pink); font-weight: bold; font-size: 18px; }
+        .remove-btn { position: absolute; top: 10px; right: 10px; background: transparent; border: none; color: #e74c3c; font-size: 20px; cursor: pointer; transition: 0.3s; }
+        .remove-btn:hover { transform: scale(1.2); }
+        .empty-msg { text-align: center; color: #999; font-size: 18px; margin-top: 50px; }
+        .btn-shop { display: inline-block; margin-top: 15px; background: var(--dark-pink); color: white; padding: 8px 25px; border-radius: 30px; text-decoration: none; font-weight: 500; transition: 0.3s; }
+        .btn-shop:hover { background: #b56a6f; }
+        @media (max-width: 600px) { .top-header { flex-direction: column; gap: 15px; } .header-links { display: flex; flex-wrap: wrap; justify-content: center; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="top-header">
+            <div class="logo"><i class="fas fa-seedling"></i> ROSE</div>
+            <div class="header-actions">
+                <div class="header-links">
+                    <a href="index.html">Home</a>
+                    <a href="products.html">Products</a>
+                    <a href="offers.html" style="color: #e74c3c;"><i class="fas fa-tags"></i> Offers</a>
+                    <a href="wishlist.html"><i class="fas fa-heart"></i> Wishlist</a>
+                    <a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart</a>
+                    <a href="login.html"><i class="fas fa-user"></i> Login</a>
+                </div>
+                <button class="lang-switch-btn" onclick="toggleLang()" id="langBtn">🌐</button>
+                <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
+            </div>
+        </header>
+        
+        <h2 class="section-title">My Wishlist</h2>
+        
+        <div class="wishlist-grid" id="wishlistGrid">
+            <!-- سيتم تعبئة المنتجات هنا بواسطة الجافاسكربت -->
+        </div>
+    </div>
+    
+    <script>
+        function loadWishlist() {
+            const grid = document.getElementById('wishlistGrid');
+            grid.innerHTML = '';
+            const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+            
+            if (wishlist.length === 0) {
+                grid.innerHTML = `<div class="empty-msg" style="grid-column: 1/-1;">Your wishlist is empty. <br><a href="products.html" style="color:var(--dark-pink); font-weight:bold;">Start adding items!</a></div>`;
+                return;
+            }
+            
+            wishlist.forEach(item => {
+                // تحديد رابط المنتج: إذا كان هناك خصم، نضيفه للرابط
+                let productLink = `product-details.html?product=${encodeURIComponent(item.name)}`;
+                if (item.discount && item.discount > 0) {
+                    productLink += `&discount=${item.discount}`;
+                }
+
+                const card = document.createElement('div');
+                card.className = 'wishlist-item';
+                card.innerHTML = `
+                    <button class="remove-btn" onclick="removeItem('${item.name}')"><i class="fas fa-times-circle"></i></button>
+                    <img src="${item.img}" alt="${item.name}">
+                    <h3>${item.name}</h3>
+                    <div class="price">${item.price} JD</div>
+                    <a href="${productLink}" class="btn-shop">View Product</a>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function removeItem(name) {
+            let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+            wishlist = wishlist.filter(item => item.name !== name);
+            localStorage.setItem('wishlist', JSON.stringify(wishlist));
+            loadWishlist();
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const btn = document.getElementById('themeBtn');
+            if (document.body.classList.contains('dark-mode')) { btn.innerHTML = '☀️'; localStorage.setItem('theme', 'dark'); }
+            else { btn.innerHTML = '🌙'; localStorage.setItem('theme', 'light'); }
+        }
+        window.onload = function() {
+            loadWishlist();
+            if (localStorage.getItem('theme') === 'dark') { document.body.classList.add('dark-mode'); document.getElementById('themeBtn').innerHTML = '☀️'; }
+        }
+
+        const translations = { en: { langBtn: "🌐" }, ar: { langBtn: "🌐" } };
+        let currentLang = 'en';
+        function toggleLang() {
+            currentLang = currentLang === 'en' ? 'ar' : 'en';
+            document.getElementById('langBtn').innerText = translations[currentLang].langBtn;
+        }
+    </script>
+</body>
+</html>
