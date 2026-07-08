@@ -7,239 +7,478 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root { --dark-pink: #d6858a; --text-color: #5a4c4c; --white: #ffffff; --bg-color: #fffafb; --star-active: #ffaa00; --star-inactive: #ddd; --card-bg: #fdf5f6; --rev-bg: #f9f9f9; --border: #e0d0d0; --discount-red: #e74c3c; }
-        body.dark-mode { --text-color: #e0e0e0; --white: #2c2c2c; --bg-color: #1a1a1a; --star-inactive: #555; --card-bg: #3a3a3a; --rev-bg: #333; --border: #555; }
+        :root { 
+            /* Light Mode */
+            --bg-color: #FFF5FA; 
+            --white: #FFFFFF; 
+            --text-color: #7A295A; 
+            --dark-pink: #E754A6; 
+            --card-bg: #FFE4F1; 
+            --border-color: #F8B6D9; 
+            --shadow: 0 10px 30px rgba(231, 84, 166, 0.12); 
+            --star-active: #FFB300; 
+            --star-inactive: #ddd; 
+            --input-bg: #FFFFFF;
+            --img-shadow: 0 6px 20px rgba(231, 84, 166, 0.08);
+            --discount-red: #e74c3c;
+        }
+        body.dark-mode {
+            /* Dark Mode */
+            --bg-color: #1A1018; 
+            --white: #2A1A22; 
+            --text-color: #F5E2EB; 
+            --dark-pink: #E85FAD; 
+            --card-bg: #3A2230; 
+            --border-color: #6A3A50; 
+            --shadow: 0 10px 30px rgba(255,255,255,0.05); 
+            --star-inactive: #555; 
+            --input-bg: #3A2230;
+            --img-shadow: 0 6px 20px rgba(255,255,255,0.1);
+        }
+        
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        body { background: var(--bg-color); color: var(--text-color); transition: 0.3s; display: flex; justify-content: center; padding: 20px; }
-        .container { max-width: 1100px; width: 100%; background: var(--white); border-radius: 20px; padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
-        .lang-header { width: 100%; display: flex; justify-content: flex-end; margin-bottom: 10px; gap: 10px; }
-        .lang-switch-btn, .theme-btn { background: var(--white); border: 1px solid var(--border); padding: 5px 15px; border-radius: 20px; cursor: pointer; font-weight: 500; font-size: 14px; transition: 0.3s; color: var(--text-color); }
-        .lang-switch-btn:hover, .theme-btn:hover { border-color: var(--dark-pink); }
+        body { background: var(--bg-color); color: var(--text-color); transition: background 0.3s, color 0.3s; display: flex; justify-content: center; padding: 40px; }
+        .container { max-width: 1000px; width: 100%; background: var(--white); border-radius: 20px; padding: 40px; box-shadow: var(--shadow); }
+        
+        .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+        .page-header .back-link { color: #888; text-decoration: none; transition: 0.3s; }
+        .page-header .back-link:hover { color: var(--dark-pink); }
+        .header-buttons { display: flex; gap: 10px; }
+        .lang-btn, .theme-btn { background: var(--white); border: 1px solid var(--border-color); padding: 5px 15px; border-radius: 20px; cursor: pointer; font-weight: 500; font-size: 14px; color: var(--text-color); transition: 0.3s; }
+        .lang-btn:hover, .theme-btn:hover { border-color: var(--dark-pink); }
 
-        .product-layout { display: flex; gap: 50px; flex-wrap: wrap; }
-        .img-box { flex: 1; min-width: 300px; background: var(--card-bg); border-radius: 20px; display: flex; align-items: center; justify-content: center; padding: 30px; }
-        .img-box img { max-width: 100%; mix-blend-mode: multiply; }
-        .details { flex: 1; min-width: 300px; }
-        .details h1 { color: var(--text-color); font-size: 32px; margin-bottom: 5px; }
-        .price-section { display: flex; align-items: center; gap: 15px; margin: 15px 0; flex-wrap: wrap; }
-        .details .price { color: var(--dark-pink); font-size: 24px; font-weight: 600; }
-        .details .old-price { color: #999; text-decoration: line-through; font-size: 18px; }
-        .discount-tag { background: var(--discount-red); color: white; padding: 2px 12px; border-radius: 15px; font-size: 13px; font-weight: bold; }
-        .details .desc { color: #888; line-height: 1.6; margin-bottom: 20px; }
+        .product-content { 
+            display: flex; 
+            gap: 40px; 
+            flex-wrap: wrap; 
+            align-items: flex-start;
+        }
         
-        .rating-section { margin: 15px 0 25px 0; }
-        .star-container { display: flex; gap: 5px; cursor: pointer; }
-        .star-container i { font-size: 24px; color: var(--star-inactive); transition: 0.2s; }
-        .star-container i.active { color: var(--star-active); }
-        .rating-text { display: block; margin-top: 5px; font-size: 13px; color: #888; }
+        /* ===== صورة المنتج ===== */
+        .image-box { 
+            flex: 1; 
+            min-width: 320px; 
+            max-width: 500px;
+            background: var(--card-bg); 
+            border-radius: 24px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            padding: 40px 30px; 
+            box-shadow: var(--img-shadow);
+            margin: 0 auto;
+        }
+        .image-box img { 
+            max-width: 100%; 
+            max-height: 500px; 
+            width: auto;
+            height: auto;
+            object-fit: contain; 
+            border-radius: 8px;
+        }
         
-        .qty-box { display: flex; align-items: center; gap: 10px; margin: 20px 0; }
-        .qty-box button { width: 35px; height: 35px; border-radius: 50%; border: 1px solid var(--border); background: var(--white); color: var(--text-color); cursor: pointer; }
-        .qty-box input { width: 50px; text-align: center; border: none; font-size: 16px; color: var(--text-color); background: transparent; }
-        .btn-add { background: var(--dark-pink); color: white; border: none; padding: 15px 40px; border-radius: 30px; cursor: pointer; font-weight: 600; margin-top: 10px; transition: 0.3s; text-decoration: none; display: inline-block; }
-        .back-link { display: inline-block; margin-bottom: 20px; color: #888; text-decoration: none; font-size: 14px; }
+        /* ===== المعلومات ===== */
+        .info-box { 
+            flex: 1.2; 
+            min-width: 300px; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .info-box h1 { font-family: 'Playfair Display'; font-size: 34px; color: var(--text-color); margin-bottom: 10px; }
         
-        .related-section { margin-top: 50px; border-top: 1px solid var(--border); padding-top: 30px; }
-        .related-section h2 { font-family: 'Playfair Display', serif; color: var(--text-color); margin-bottom: 20px; font-size: 24px; }
-        .related-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-        .related-card { background: var(--card-bg); border-radius: 15px; padding: 15px; text-align: center; transition: 0.3s; text-decoration: none; color: inherit; }
-        .related-card:hover { transform: translateY(-5px); }
-        .related-card img { width: 100%; height: 120px; object-fit: contain; mix-blend-mode: multiply; margin-bottom: 10px; }
-        .related-card h4 { font-size: 14px; color: var(--text-color); margin-bottom: 5px; }
-        .related-card span { color: var(--dark-pink); font-weight: 600; font-size: 13px; }
+        .price-section { 
+            display: flex; 
+            align-items: center; 
+            gap: 12px; 
+            flex-wrap: wrap; 
+            margin: 15px 0; 
+        }
+        .info-box .price { display: block; font-size: 28px; font-weight: bold; color: var(--dark-pink); }
+        .info-box .old-price { 
+            font-size: 20px; 
+            color: #999; 
+            text-decoration: line-through; 
+        }
+        .info-box .discount-tag { 
+            background: var(--discount-red); 
+            color: white; 
+            padding: 2px 12px; 
+            border-radius: 20px; 
+            font-size: 14px; 
+            font-weight: bold; 
+        }
+        
+        .info-box .desc { color: #888; line-height: 1.8; margin-bottom: 25px; font-size: 15px; }
+        
+        .rating-section { margin: 20px 0; }
+        .stars-container { display: flex; gap: 5px; cursor: pointer; }
+        .stars-container i { font-size: 24px; color: var(--star-inactive); transition: 0.2s; }
+        .stars-container i.active { color: var(--star-active); }
+        .rating-info { display: block; margin-top: 5px; font-size: 14px; color: #888; }
+        .rating-info strong { color: var(--text-color); }
 
-        .reviews-section { margin-top: 50px; border-top: 1px solid var(--border); padding-top: 30px; }
-        .reviews-section h2 { font-family: 'Playfair Display', serif; color: var(--text-color); margin-bottom: 20px; font-size: 24px; }
-        .review-item { background: var(--rev-bg); padding: 15px; border-radius: 10px; margin-bottom: 15px; }
-        .review-item .rev-header { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 14px; font-weight: 500; color: var(--text-color); }
-        .review-item .rev-stars { color: var(--star-active); font-size: 13px; }
-        .review-item p { color: #888; font-size: 14px; line-height: 1.5; }
-
-        .add-review-box { margin-top: 25px; background: var(--card-bg); padding: 20px; border-radius: 15px; }
-        .add-review-box h4 { color: var(--text-color); margin-bottom: 10px; }
-        .add-review-box input, .add-review-box textarea { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 10px; outline: none; margin-bottom: 10px; font-family: inherit; background: var(--white); color: var(--text-color); }
-        .add-review-box textarea { height: 80px; resize: vertical; }
-        .add-review-box button { background: var(--dark-pink); color: white; border: none; padding: 10px 30px; border-radius: 20px; cursor: pointer; font-weight: 500; transition: 0.3s; }
+        .qty-box { display: flex; align-items: center; gap: 15px; margin: 20px 0; }
+        .qty-box label { font-weight: 500; color: var(--text-color); }
+        .qty-box input { width: 60px; padding: 10px; text-align: center; border: 1px solid var(--border-color); border-radius: 10px; font-size: 16px; background: var(--input-bg); color: var(--text-color); outline: none; }
+        .qty-box button { width: 40px; height: 40px; border: 1px solid var(--border-color); background: var(--white); border-radius: 50%; cursor: pointer; color: var(--text-color); transition: 0.3s; }
+        .qty-box button:hover { background: var(--dark-pink); color: white; }
         
-        @media (max-width: 768px) { .container { padding: 20px; } .related-grid { grid-template-columns: repeat(2, 1fr); } }
+        .btn-cart { background: var(--dark-pink); color: white; border: none; padding: 15px 40px; border-radius: 30px; font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.3s; margin-top: 10px; width: 100%; }
+        .btn-cart:hover { background: #C5408A; transform: translateY(-2px); }
+        .btn-cart i { margin-right: 10px; }
+
+        .comments-section { margin-top: 30px; border-top: 1px solid var(--border-color); padding-top: 25px; }
+        .comments-section h3 { color: var(--text-color); margin-bottom: 15px; }
+        .comment-item { background: var(--card-bg); padding: 12px 15px; border-radius: 10px; margin-bottom: 12px; }
+        .comment-item .comment-header { display: flex; justify-content: space-between; font-size: 14px; font-weight: 500; color: var(--text-color); }
+        .comment-item .comment-stars { color: var(--star-active); font-size: 12px; }
+        .comment-item p { color: #666; font-size: 14px; margin-top: 5px; }
+        .no-comments { color: #999; font-size: 14px; }
+        
+        .add-comment-box { background: var(--card-bg); padding: 20px; border-radius: 15px; margin-top: 20px; }
+        .add-comment-box h4 { color: var(--text-color); margin-bottom: 10px; }
+        .add-comment-box input, .add-comment-box textarea { width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 8px; outline: none; margin-bottom: 10px; font-family: inherit; background: var(--input-bg); color: var(--text-color); }
+        .add-comment-box textarea { height: 80px; resize: vertical; }
+        .add-comment-box button { background: var(--dark-pink); color: white; border: none; padding: 10px 25px; border-radius: 20px; cursor: pointer; font-weight: 500; transition: 0.3s; }
+        .add-comment-box button:hover { background: #C5408A; }
+
+        @media (max-width: 600px) { 
+            .container { padding: 20px; } 
+            .product-content { flex-direction: column; align-items: center; } 
+            .image-box { min-width: 100%; padding: 20px; } 
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="lang-header">
-            <button class="lang-switch-btn" onclick="toggleLang()" id="langBtn">🌐</button>
-            <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
-        </div>
-        
-        <div class="product-layout">
-            <div class="img-box">
-                <img id="detailImage" src="" alt="Product Image">
+        <!-- رأس الصفحة -->
+        <div class="page-header">
+            <a href="products.html" class="back-link" id="backLink"><i class="fas fa-arrow-left"></i> <span id="backText">Back to Products</span></a>
+            <div class="header-buttons">
+                <button class="lang-btn" onclick="toggleLang()" id="langBtn">🌐</button>
+                <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
             </div>
-            <div class="details">
-                <a href="products.html" class="back-link" id="backLink"><i class="fas fa-arrow-left"></i> <span id="backText">Back to Products</span></a>
-                <h1 id="detailTitle">Loading...</h1>
+        </div>
+
+        <div class="product-content">
+            <!-- صورة المنتج -->
+            <div class="image-box">
+                <img id="productImage" src="" alt="Product Image">
+            </div>
+            
+            <div class="info-box">
+                <h1 id="productTitle">Loading...</h1>
                 
+                <!-- قسم السعر مع الخصم -->
                 <div class="price-section">
-                    <span class="price" id="detailPrice">0.00 JD</span>
+                    <span class="price" id="productPrice">0.00 JD</span>
                     <span class="old-price" id="oldPrice" style="display:none;"></span>
                     <span class="discount-tag" id="discountTag" style="display:none;">-0%</span>
                 </div>
                 
-                <p class="desc" id="detailDesc">Loading description...</p>
+                <p class="desc" id="productDesc">Loading description...</p>
                 
                 <div class="rating-section">
-                    <div class="star-container" id="starContainer">
-                        <i class="far fa-star" data-star="1"></i><i class="far fa-star" data-star="2"></i><i class="far fa-star" data-star="3"></i><i class="far fa-star" data-star="4"></i><i class="far fa-star" data-star="5"></i>
+                    <div class="stars-container" id="starsContainer">
+                        <i class="far fa-star" data-star="1"></i>
+                        <i class="far fa-star" data-star="2"></i>
+                        <i class="far fa-star" data-star="3"></i>
+                        <i class="far fa-star" data-star="4"></i>
+                        <i class="far fa-star" data-star="5"></i>
                     </div>
-                    <span class="rating-text" id="ratingText"><strong id="ratingCount">0</strong> <span id="reviewsLabel">Reviews</span></span>
+                    <span class="rating-info">
+                        <strong id="ratingCount">0</strong> <span id="reviewsLabel">Reviews</span>
+                    </span>
                 </div>
-
+                
                 <div class="qty-box">
+                    <label id="qtyLabel">Quantity:</label>
                     <button onclick="document.getElementById('qty').stepDown()">-</button>
                     <input type="number" id="qty" value="1" min="1">
                     <button onclick="document.getElementById('qty').stepUp()">+</button>
                 </div>
-                <a href="cart.html" class="btn-add" id="addBtn"><i class="fas fa-shopping-cart"></i> <span id="addText">Add to Cart</span></a>
-            </div>
-        </div>
+                <button class="btn-cart" onclick="handleAddToCart()"><i class="fas fa-shopping-cart"></i> <span id="addText">Add to Cart</span></button>
 
-        <div class="related-section">
-            <h2 id="relatedTitle">Related Products</h2>
-            <div class="related-grid" id="relatedGrid"></div>
-        </div>
-
-        <div class="reviews-section">
-            <h2 id="reviewsTitle">Customer Reviews</h2>
-            <div id="reviewsContainer"></div>
-            <div class="add-review-box">
-                <h4 id="addReviewTitle">Add a Review</h4>
-                <input type="text" id="reviewName" placeholder="Your Name" required>
-                <textarea id="reviewText" placeholder="Write your comment here..."></textarea>
-                <button onclick="addNewReview()" id="submitReviewBtn">Submit Review</button>
+                <!-- التعليقات -->
+                <div class="comments-section">
+                    <h3 id="reviewsTitle">Customer Reviews</h3>
+                    <div id="commentsContainer">
+                        <p class="no-comments" id="noReviewsText">No reviews yet. Be the first to review!</p>
+                    </div>
+                    
+                    <div class="add-comment-box">
+                        <h4 id="addReviewTitle">Add a Review</h4>
+                        <input type="text" id="userName" placeholder="Your Name" required>
+                        <textarea id="userComment" placeholder="Write your comment here..." required></textarea>
+                        <button onclick="addReview()" id="submitBtn">Submit Review</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
         // ============================================================
-        // قاعدة البيانات
+        // تحميل بيانات المنتج من LocalStorage
         // ============================================================
-        const productsDatabase = {
-            "Gentle Foaming Cleanser": { category: "cleanser", image: "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=500&auto=format&fit=crop", price: 5.00, desc_en: "A gentle, foaming cleanser.", desc_ar: "غسول رغوي لطيف.", reviews: [{name: "Sara", rating: 5, text: "Best cleanser!"}] },
-            "Rose Water Gel Wash": { category: "cleanser", image: "https://images.unsplash.com/photo-1608248597279-f99d160bfbc8?w=500&auto=format&fit=crop", price: 6.50, desc_en: "Infused with real rose water.", desc_ar: "مملوء بماء الورد الحقيقي.", reviews: [{name: "Layla", rating: 5, text: "Smells heavenly."}] },
-            "Rose Petal Balancing Toner": { category: "toner", image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=500&auto=format&fit=crop", price: 6.00, desc_en: "Restore your skin's pH balance.", desc_ar: "استعد توازن بشرتك.", reviews: [{name: "Noor", rating: 5, text: "My pores are less visible."}] },
-            "Daily Hydrating Lotion": { category: "moisturizer", image: "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=500&auto=format&fit=crop", price: 9.50, desc_en: "A lightweight, daily moisturizer.", desc_ar: "مرطب يومي خفيف الوزن.", reviews: [{name: "Maya", rating: 5, text: "Love it!"}] },
-            "Night Repair Cream": { category: "moisturizer", image: "https://images.unsplash.com/photo-1629198688000-71f23e745b6e?w=500&auto=format&fit=crop", price: 11.50, desc_en: "Rich night cream.", desc_ar: "كريم ليلي غني.", reviews: [{name: "Omar", rating: 4, text: "Great cream."}] },
-            "SPF 50 Daily Defense": { category: "sunscreen", image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=500&auto=format&fit=crop", price: 11.00, desc_en: "Protect your skin.", desc_ar: "احم بشرتك.", reviews: [{name: "Huda", rating: 5, text: "Perfect!"}] },
-            "Rose Bloom Eau de Parfum": { category: "perfume", image: "https://images.unsplash.com/photo-1541643600914-78b084683601?w=500&auto=format&fit=crop", price: 18.00, desc_en: "A romantic and elegant fragrance.", desc_ar: "عطر رومانسي وأنيق.", reviews: [{name: "Sarah", rating: 5, text: "My signature scent!"}] }
-        };
+        const products = JSON.parse(localStorage.getItem('adminProducts')) || [];
+        const urlParams = new URLSearchParams(window.location.search);
+        const productName = urlParams.get('product');
+        const foundProduct = products.find(p => p.name === productName);
 
-        const translations = {
-            en: { back: "Back to Products", add: "Add to Cart", reviews: "Reviews", related: "Related Products", revTitle: "Customer Reviews", addTitle: "Add a Review", subBtn: "Submit Review", langBtn: "🌐" },
-            ar: { back: "عودة للمنتجات", add: "أضف إلى السلة", reviews: "تقييمات", related: "منتجات مشابهة", revTitle: "آراء العملاء", addTitle: "أضف تقييماً", subBtn: "إرسال التقييم", langBtn: "🌐" }
-        };
-        
-        let currentLang = 'en', currentRating = 0, currentProductName = "";
-
-        window.onload = function() {
-            const params = new URLSearchParams(window.location.search);
-            currentProductName = params.get('product');
-            const discount = parseInt(params.get('discount')) || 0;
-
-            if (currentProductName && productsDatabase[currentProductName]) {
-                const data = productsDatabase[currentProductName];
-                document.getElementById('detailTitle').innerText = currentProductName;
+        if (foundProduct) {
+            document.getElementById('productTitle').innerText = foundProduct.name;
+            
+            // عرض السعر مع الخصم
+            let displayPrice = foundProduct.price;
+            let discountPercent = foundProduct.discount || 0;
+            
+            if (discountPercent > 0) {
+                const originalPrice = parseFloat(foundProduct.price.replace(' JD', ''));
+                const discountedPrice = originalPrice * (1 - discountPercent / 100);
+                displayPrice = discountedPrice.toFixed(2) + ' JD';
                 
-                // تطبيق الخصم
-                let finalPrice = data.price;
-                if (discount > 0) {
-                    finalPrice = data.price - (data.price * (discount / 100));
-                    document.getElementById('oldPrice').innerText = data.price.toFixed(2) + " JD";
-                    document.getElementById('oldPrice').style.display = 'inline';
-                    document.getElementById('discountTag').innerText = "-" + discount + "%";
-                    document.getElementById('discountTag').style.display = 'inline';
-                }
-                
-                document.getElementById('detailPrice').innerText = finalPrice.toFixed(2) + " JD";
-                document.getElementById('detailImage').src = data.image;
-                document.getElementById('detailDesc').innerText = data.desc_en;
-                
-                generateRelatedProducts(data.category);
-                renderReviews(data.reviews);
+                document.getElementById('oldPrice').innerText = foundProduct.price;
+                document.getElementById('oldPrice').style.display = 'inline';
+                document.getElementById('discountTag').innerText = `-${discountPercent}%`;
+                document.getElementById('discountTag').style.display = 'inline';
             } else {
-                document.getElementById('detailTitle').innerText = "Product Not Found";
+                document.getElementById('oldPrice').style.display = 'none';
+                document.getElementById('discountTag').style.display = 'none';
             }
-
-            const stars = document.querySelectorAll('.star-container i');
-            stars.forEach(star => {
-                star.addEventListener('click', function() { setRating(parseInt(this.dataset.star)); });
-                star.addEventListener('mouseenter', function() { highlightStars(parseInt(this.dataset.star)); });
-                star.addEventListener('mouseleave', function() { highlightStars(currentRating); });
-            });
-
-            if (localStorage.getItem('theme') === 'dark') { document.body.classList.add('dark-mode'); document.getElementById('themeBtn').innerHTML = '☀️'; }
-        };
-
-        function setRating(r) { currentRating = r; highlightStars(r); document.getElementById('ratingCount').innerText = r; }
-        function highlightStars(r) { document.querySelectorAll('.star-container i').forEach(s => parseInt(s.dataset.star) <= r ? s.className = 'fas fa-star active' : s.className = 'far fa-star'); }
-
-        function generateRelatedProducts(c) {
-            const grid = document.getElementById('relatedGrid'); grid.innerHTML = '';
-            let count = 0;
-            for (const [name, data] of Object.entries(productsDatabase)) {
-                if (data.category === c && name !== currentProductName && count < 4) {
-                    const card = document.createElement('a');
-                    card.href = `product-details.html?product=${encodeURIComponent(name)}`;
-                    card.className = 'related-card';
-                    card.innerHTML = `<img src="${data.image}"><h4>${name}</h4><span>${data.price.toFixed(2)} JD</span>`;
-                    grid.appendChild(card); count++;
-                }
-            }
-            if (count === 0) grid.innerHTML = '<p style="color:#888;grid-column:1/-1;">No similar products found.</p>';
+            
+            document.getElementById('productPrice').innerText = displayPrice;
+            document.getElementById('productImage').src = foundProduct.img;
+            document.getElementById('productDesc').innerText = foundProduct.desc || "A high-quality skincare product carefully formulated to nourish and protect your skin.";
+        } else {
+            document.getElementById('productTitle').innerText = "Product Not Found";
+            document.getElementById('productImage').src = "https://via.placeholder.com/300";
         }
 
-        function renderReviews(reviews) {
-            const container = document.getElementById('reviewsContainer'); container.innerHTML = '';
-            if (!reviews || reviews.length === 0) { container.innerHTML = '<p style="color:#888;">No reviews yet.</p>'; return; }
-            reviews.forEach(rev => {
-                const starsHtml = '<i class="fas fa-star" style="color:#ffaa00;"></i>'.repeat(rev.rating);
-                const div = document.createElement('div'); div.className = 'review-item';
-                div.innerHTML = `<div class="rev-header"><span>${rev.name}</span><span class="rev-stars">${starsHtml}</span></div><p>${rev.text}</p>`;
+        // ============================================================
+        // نظام التقييم والتعليقات
+        // ============================================================
+        let currentRating = 0;
+        let allReviews = JSON.parse(localStorage.getItem('productReviews')) || {};
+
+        function renderComments() {
+            const container = document.getElementById('commentsContainer');
+            container.innerHTML = '';
+
+            const productReviews = allReviews[productName] || [];
+
+            if (productReviews.length === 0) {
+                container.innerHTML = `<p class="no-comments" id="noReviewsText">${translations[currentLang].noReviews}</p>`;
+                return;
+            }
+
+            let totalStars = 0;
+            productReviews.forEach(r => totalStars += r.rating);
+            const avgRating = (totalStars / productReviews.length).toFixed(1);
+            document.getElementById('ratingCount').innerText = avgRating;
+
+            productReviews.forEach(rev => {
+                const starsHtml = '<i class="fas fa-star" style="color:#FFB300;"></i>'.repeat(rev.rating);
+                const div = document.createElement('div');
+                div.className = 'comment-item';
+                div.innerHTML = `
+                    <div class="comment-header">
+                        <span>${rev.name}</span>
+                        <span class="comment-stars">${starsHtml}</span>
+                    </div>
+                    <p>${rev.text}</p>
+                `;
                 container.appendChild(div);
             });
         }
 
-        function addNewReview() {
-            const n = document.getElementById('reviewName').value.trim();
-            const t = document.getElementById('reviewText').value.trim();
-            if (!n || !t) { alert("Please fill in all fields."); return; }
-            if (currentRating === 0) { alert("Please rate the product."); return; }
-            const newReview = { name: n, rating: currentRating, text: t };
-            if (productsDatabase[currentProductName]) {
-                productsDatabase[currentProductName].reviews.unshift(newReview);
-                renderReviews(productsDatabase[currentProductName].reviews);
-                document.getElementById('reviewName').value = ''; document.getElementById('reviewText').value = '';
-                alert("Review added!");
+        function addReview() {
+            const name = document.getElementById('userName').value.trim();
+            const text = document.getElementById('userComment').value.trim();
+
+            if (!name || !text) {
+                alert(translations[currentLang].fillError);
+                return;
             }
+            if (currentRating === 0) {
+                alert(translations[currentLang].rateError);
+                return;
+            }
+
+            const newReview = { name: name, rating: currentRating, text: text };
+
+            if (!allReviews[productName]) {
+                allReviews[productName] = [];
+            }
+            allReviews[productName].unshift(newReview);
+
+            localStorage.setItem('productReviews', JSON.stringify(allReviews));
+
+            renderComments();
+            document.getElementById('userName').value = '';
+            document.getElementById('userComment').value = '';
+            
+            alert(translations[currentLang].successMsg);
         }
+
+        // ============================================================
+        // تفعيل نجوم التقييم
+        // ============================================================
+        const stars = document.querySelectorAll('.stars-container i');
+        stars.forEach(star => {
+            star.addEventListener('click', function() {
+                const rating = parseInt(this.dataset.star);
+                setRating(rating);
+            });
+            star.addEventListener('mouseenter', function() {
+                const rating = parseInt(this.dataset.star);
+                highlightStars(rating);
+            });
+            star.addEventListener('mouseleave', function() {
+                highlightStars(currentRating);
+            });
+        });
+
+        function setRating(rating) {
+            currentRating = rating;
+            highlightStars(rating);
+        }
+
+        function highlightStars(rating) {
+            stars.forEach(star => {
+                const starNum = parseInt(star.dataset.star);
+                if (starNum <= rating) {
+                    star.className = 'fas fa-star active';
+                } else {
+                    star.className = 'far fa-star';
+                }
+            });
+        }
+
+        // ============================================================
+        // نظام الترجمة
+        // ============================================================
+        const translations = {
+            en: {
+                back: "Back to Products",
+                add: "Add to Cart",
+                reviews: "Reviews",
+                title: "Customer Reviews",
+                addTitle: "Add a Review",
+                submit: "Submit Review",
+                noReviews: "No reviews yet. Be the first to review!",
+                fillError: "Please fill in your name and comment.",
+                rateError: "Please rate the product by clicking the stars above.",
+                successMsg: "Review added successfully!",
+                qty: "Quantity:",
+                langBtn: "🌐"
+            },
+            ar: {
+                back: "عودة للمنتجات",
+                add: "أضف إلى السلة",
+                reviews: "تقييمات",
+                title: "آراء العملاء",
+                addTitle: "أضف تقييماً",
+                submit: "إرسال التقييم",
+                noReviews: "لا توجد تقييمات بعد. كن أول من يقيم!",
+                fillError: "يرجى ملء اسمك والتعليق.",
+                rateError: "يرجى تقييم المنتج بالضغط على النجوم أعلاه.",
+                successMsg: "تم إضافة التقييم بنجاح!",
+                qty: "الكمية:",
+                langBtn: "🌐"
+            }
+        };
+
+        let currentLang = 'en';
+
+        window.onload = function() {
+            const savedLang = localStorage.getItem('lang');
+            if (savedLang === 'ar' || savedLang === 'en') {
+                currentLang = savedLang;
+                applyLanguage();
+            }
+            renderComments();
+            if (localStorage.getItem('theme') === 'dark') {
+                document.body.classList.add('dark-mode');
+                document.getElementById('themeBtn').innerHTML = '☀️';
+            }
+        };
 
         function toggleLang() {
             currentLang = currentLang === 'en' ? 'ar' : 'en';
-            const t = translations[currentLang];
-            document.getElementById('backText').innerText = t.back; document.getElementById('addText').innerText = t.add;
-            document.getElementById('reviewsLabel').innerText = t.reviews; document.getElementById('relatedTitle').innerText = t.related;
-            document.getElementById('reviewsTitle').innerText = t.revTitle; document.getElementById('addReviewTitle').innerText = t.addTitle;
-            document.getElementById('submitReviewBtn').innerText = t.subBtn; document.getElementById('langBtn').innerText = t.langBtn;
-            if (productsDatabase[currentProductName]) {
-                document.getElementById('detailDesc').innerText = currentLang === 'en' ? productsDatabase[currentProductName].desc_en : productsDatabase[currentProductName].desc_ar;
-            }
+            applyLanguage();
+            localStorage.setItem('lang', currentLang);
         }
 
+        function applyLanguage() {
+            const t = translations[currentLang];
+            document.getElementById('backText').innerText = t.back;
+            document.getElementById('addText').innerText = t.add;
+            document.getElementById('reviewsLabel').innerText = t.reviews;
+            document.getElementById('reviewsTitle').innerText = t.title;
+            document.getElementById('addReviewTitle').innerText = t.addTitle;
+            document.getElementById('submitBtn').innerText = t.submit;
+            document.getElementById('qtyLabel').innerText = t.qty;
+            document.getElementById('langBtn').innerText = t.langBtn;
+            renderComments();
+        }
+
+        // ============================================================
+        // الدارك مود
+        // ============================================================
         function toggleTheme() {
             document.body.classList.toggle('dark-mode');
             const btn = document.getElementById('themeBtn');
-            if (document.body.classList.contains('dark-mode')) { btn.innerHTML = '☀️'; localStorage.setItem('theme', 'dark'); }
-            else { btn.innerHTML = '🌙'; localStorage.setItem('theme', 'light'); }
+            if (document.body.classList.contains('dark-mode')) {
+                btn.innerHTML = '☀️';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                btn.innerHTML = '🌙';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // ============================================================
+        // ✅ إضافة المنتج إلى السلة
+        // ============================================================
+        function handleAddToCart() {
+            const productName = document.getElementById('productTitle').innerText;
+            const qty = parseInt(document.getElementById('qty').value) || 1;
+            const priceText = document.getElementById('productPrice').innerText;
+            const img = document.getElementById('productImage').src;
+
+            // تحويل السعر من نص إلى رقم
+            const price = parseFloat(priceText.replace(' JD', ''));
+
+            // قراءة السلة الحالية
+            let cart = JSON.parse(localStorage.getItem('shoppingCart')) || [];
+
+            // التحقق مما إذا كان المنتج موجوداً بالفعل في السلة
+            const existingItemIndex = cart.findIndex(item => item.name === productName);
+
+            if (existingItemIndex !== -1) {
+                // إذا كان موجوداً، قم بزيادة الكمية
+                cart[existingItemIndex].qty += qty;
+            } else {
+                // إذا لم يكن موجوداً، أضف منتجاً جديداً
+                const newItem = {
+                    id: Date.now(),
+                    name: productName,
+                    img: img,
+                    price: price,
+                    qty: qty
+                };
+                cart.push(newItem);
+            }
+
+            // حفظ السلة
+            localStorage.setItem('shoppingCart', JSON.stringify(cart));
+
+            alert(`Added ${qty} x "${productName}" to your cart!`);
+            
+            // اختياري: التوجه إلى السلة فوراً
+            // window.location.href = 'cart.html';
         }
     </script>
 </body>

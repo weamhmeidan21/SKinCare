@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - Rose Skincare</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+       :root {
+    --dark-pink: #E754A6;
+    --text-color: #7A295A;
+    --white: #FFFFFF;
+    --bg-color: #FFF5FA;
+}
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background: var(--bg-color); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+        .login-box { background: var(--white); padding: 50px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); max-width: 400px; width: 100%; text-align: center; }
+        .login-box h2 { color: var(--text-color); font-size: 24px; margin-bottom: 10px; }
+        .login-box p { color: #888; font-size: 14px; margin-bottom: 30px; }
+        .login-box .icon { font-size: 40px; color: var(--dark-pink); margin-bottom: 15px; }
+        .form-group { margin-bottom: 20px; text-align: left; }
+        .form-group label { display: block; font-weight: 500; margin-bottom: 5px; color: var(--text-color); }
+        .form-group input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; outline: none; }
+        .form-group input:focus { border-color: var(--dark-pink); }
+        .login-btn { background: var(--dark-pink); color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.3s; }
+        .login-btn:hover { background: #b56a6f; }
+        #errorMsg { color: #e74c3c; font-size: 13px; margin-top: 10px; display: none; }
+    </style>
+</head>
+<body>
+    <div class="login-box">
+        <div class="icon"><i class="fas fa-user-shield"></i></div>
+        <h2>Admin Login</h2>
+        <p>Enter your admin credentials to manage the store.</p>
+        <form onsubmit="handleAdminLogin(event)">
+            <div class="form-group"><label>Email Address</label><input type="email" id="adminEmail" ></div>
+            <div class="form-group"><label>Password</label><input type="password" id="adminPassword" placeholder="********"></div>
+            <button type="submit" class="login-btn">Login</button>
+            <div id="errorMsg">Incorrect email or password!</div>
+        </form>
+    </div>
+    <script>
+        function handleAdminLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('adminEmail').value;
+            const pass = document.getElementById('adminPassword').value;
+            if(email === 'admin@rose.com' && pass === '123456') {
+                localStorage.setItem('adminLoggedIn', 'true');
+                window.location.href = 'admin-dashboard.html';
+            } else {
+                document.getElementById('errorMsg').style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>

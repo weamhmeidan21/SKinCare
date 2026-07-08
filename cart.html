@@ -7,8 +7,24 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root { --bg-color: #fffafb; --white: #ffffff; --text-color: #5a4c4c; --dark-pink: #d6858a; --card-bg: #fdf5f6; --border-color: #e0d0d0; --shadow: 0 10px 30px rgba(0,0,0,0.05); }
-        body.dark-mode { --bg-color: #1a1a1a; --white: #2c2c2c; --text-color: #e0e0e0; --dark-pink: #e690a0; --card-bg: #3a3a3a; --border-color: #555; --shadow: 0 10px 30px rgba(255,255,255,0.05); }
+        :root {
+            --bg-color: #FFF5FA;      /* خلفية الصفحة */
+            --white: #FFFFFF;         /* العناصر البيضاء */
+            --text-color: #7A295A;    /* النصوص */
+            --dark-pink: #E754A6;     /* الأزرار والعناوين */
+            --card-bg: #FFEAF4;       /* بطاقات المنتجات */
+            --border-color: #F6B8D8;  /* الحدود */
+            --shadow: 0 10px 30px rgba(231, 84, 166, 0.12);
+        }
+        body.dark-mode { 
+            --bg-color: #1A1018; 
+            --white: #2A1A22; 
+            --text-color: #F5E2EB; 
+            --dark-pink: #E85FAD; 
+            --card-bg: #3A2230; 
+            --border-color: #6A3A50; 
+            --shadow: 0 10px 30px rgba(255,255,255,0.05); 
+        }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
         body { background: var(--bg-color); color: var(--text-color); transition: 0.3s; padding: 20px; display: flex; justify-content: center; }
         .container { max-width: 1000px; width: 100%; }
@@ -44,7 +60,7 @@
         
         /* زر الدفع */
         .btn-checkout { display: inline-block; margin-top: 20px; background: var(--dark-pink); color: white; padding: 14px 40px; border: none; border-radius: 30px; font-size: 16px; font-weight: 600; cursor: pointer; text-decoration: none; transition: 0.3s; }
-        .btn-checkout:hover { background: #b56a6f; transform: translateY(-2px); }
+        .btn-checkout:hover { background: #C5408A; transform: translateY(-2px); }
         
         .empty-msg { text-align: center; color: #999; padding: 40px 0; font-size: 18px; }
         .empty-msg a { color: var(--dark-pink); text-decoration: none; font-weight: bold; }
@@ -80,7 +96,6 @@
                 <span class="shipping-discount" id="shipDiscount" style="display:none;"></span>
                 <div class="summary-row total-row"><span class="label" id="totalLabel">Total</span> <span class="value" id="totalValue">0.00 JD</span></div>
                 
-                <!-- زر الدفع المحمي -->
                 <button class="btn-checkout" onclick="handleCheckout()" id="checkoutBtn">Proceed to Checkout</button>
             </div>
             
@@ -93,11 +108,30 @@
     </div>
 
     <script>
-        // ===== بيانات السلة الوهمية =====
-        let cartItems = [
-            { name: "Rose Glow Serum", img: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=150&auto=format&fit=crop", price: 8.90, qty: 1 },
-            { name: "Hydrating Moisturizer", img: "https://images.unsplash.com/photo-1608248597279-f99d160bfbc8?w=150&auto=format&fit=crop", price: 9.50, qty: 2 }
-        ];
+        // ============================================================
+        // 1. قراءة المنتجات وإدارة السلة
+        // ============================================================
+        let cartItems = JSON.parse(localStorage.getItem('shoppingCart')) || [];
+
+        // إذا كانت السلة فارغة، نضيف بعض المنتجات كـ مثال للمستخدم
+        if (cartItems.length === 0) {
+            // يمكنك تعديل هذا لاحقاً
+            const allProducts = JSON.parse(localStorage.getItem('adminProducts')) || [];
+            if (allProducts.length > 0) {
+                cartItems = allProducts.slice(0, 2).map(p => ({
+                    id: p.id,
+                    name: p.name,
+                    img: p.img,
+                    price: parseFloat(p.price.replace(' JD', '')),
+                    qty: 1
+                }));
+                localStorage.setItem('shoppingCart', JSON.stringify(cartItems));
+            }
+        }
+
+        function saveCart() {
+            localStorage.setItem('shoppingCart', JSON.stringify(cartItems));
+        }
 
         function renderCart() {
             const container = document.getElementById('cartItems');
@@ -116,6 +150,7 @@
                     <div class="item-info"><img src="${item.img}" alt="${item.name}"><div><h4>${item.name}</h4><span>${item.price.toFixed(2)} JD</span></div></div>
                     <div class="item-qty"><button onclick="changeQty(${index}, -1)">-</button><span>${item.qty}</span><button onclick="changeQty(${index}, 1)">+</button></div>
                     <div class="item-total">${total.toFixed(2)} JD</div>
+                    <button class="remove-btn" onclick="removeItem(${index})" style="background:none; border:none; color:#f44336; font-size:18px; cursor:pointer; margin-left:10px;"><i class="fas fa-trash-alt"></i></button>
                 `;
                 container.appendChild(div);
             });
@@ -125,6 +160,14 @@
         function changeQty(index, change) {
             if (cartItems[index].qty + change < 1) return;
             cartItems[index].qty += change;
+            saveCart();
+            renderCart();
+        }
+
+        function removeItem(index) {
+            if (!confirm("Are you sure you want to remove this item from your cart?")) return;
+            cartItems.splice(index, 1);
+            saveCart();
             renderCart();
         }
 
@@ -145,17 +188,15 @@
             document.getElementById('totalValue').innerText = total.toFixed(2) + ' JD';
         }
 
-        // ===== الحماية الصارمة لزر الدفع =====
         function handleCheckout() {
+            // قبل الذهاب للدفع، نقوم بحفظ السلة الحالية
+            saveCart();
+
             const isLoggedIn = localStorage.getItem('isLoggedIn');
-            
-            // إذا لم يكن مسجلاً للدخول، يتم توجيهه فوراً لصفحة الدخول دون أي رسالة
             if (isLoggedIn !== 'true') {
                 window.location.href = 'login.html';
                 return;
             }
-
-            // إذا كان مسجلاً للدخول، نوجهه لصفحة الدفع
             window.location.href = 'checkout.html';
         }
 

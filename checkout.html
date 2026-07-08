@@ -8,39 +8,32 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --bg-color: #fffafb; --white: #ffffff; --text-color: #5a4c4c; --dark-pink: #d6858a;
-            --card-bg: #fdf5f6; --border-color: #e0d0d0; --shadow: 0 10px 30px rgba(0,0,0,0.05);
+            --bg-color: #FFF5FA;      /* خلفية الصفحة */
+            --white: #FFFFFF;         /* العناصر البيضاء */
+            --text-color: #7A295A;    /* النصوص */
+            --dark-pink: #E754A6;     /* الأزرار والعناوين */
+            --card-bg: #FFE4F1;       /* بطاقات المنتجات */
+            --border-color: #F8B6D9;  /* الحدود */
+            --shadow: 0 10px 30px rgba(231, 84, 166, 0.12);
         }
         body.dark-mode {
-            --bg-color: #1a1a1a; --white: #2c2c2c; --text-color: #e0e0e0; --dark-pink: #e690a0;
-            --card-bg: #3a3a3a; --border-color: #555; --shadow: 0 10px 30px rgba(255,255,255,0.05);
+            --bg-color: #1A1018; --white: #2A1A22; --text-color: #F5E2EB; --dark-pink: #E85FAD; --card-bg: #3A2230; --border-color: #6A3A50; --shadow: 0 10px 30px rgba(255,255,255,0.05);
         }
-        
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        body { background: var(--bg-color); color: var(--text-color); transition: background 0.3s, color 0.3s; padding: 20px; display: flex; justify-content: center; }
+        body { background: var(--bg-color); color: var(--text-color); transition: 0.3s; padding: 20px; display: flex; justify-content: center; }
         .container { max-width: 1200px; width: 100%; }
         
-        /* ===== الشريط العلوي الموحد ===== */
-        .top-header {
-            display: flex; justify-content: space-between; align-items: center;
-            background: var(--white); padding: 15px 30px; border-radius: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 30px;
-        }
+        .top-header { display: flex; justify-content: space-between; align-items: center; background: var(--white); padding: 15px 30px; border-radius: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 30px; }
         .top-header .logo { font-family: 'Playfair Display'; font-size: 28px; font-weight: 700; color: #b25b60; }
         .top-header .logo i { color: #f7b2b7; }
         .header-actions { display: flex; align-items: center; gap: 15px; }
         .header-links a { color: var(--text-color); text-decoration: none; font-weight: 500; margin: 0 10px; transition: 0.3s; }
         .header-links a:hover { color: var(--dark-pink); }
-        .theme-btn, .lang-switch-btn {
-            background: transparent; border: 1px solid var(--border-color); padding: 5px 15px; border-radius: 20px;
-            cursor: pointer; font-weight: 500; font-size: 14px; color: var(--text-color); transition: 0.3s;
-        }
-        .theme-btn:hover, .lang-switch-btn:hover { border-color: var(--dark-pink); }
+        .theme-btn, .lang-switch-btn { background: transparent; border: 1px solid var(--border-color); padding: 5px 15px; border-radius: 20px; cursor: pointer; font-weight: 500; font-size: 14px; color: var(--text-color); }
 
-        /* ===== تخطيط الدفع ===== */
         .checkout-layout { display: flex; gap: 30px; flex-wrap: wrap; }
         .box { background: var(--white); border-radius: 20px; padding: 35px; box-shadow: var(--shadow); flex: 1; min-width: 320px; }
-        .box h2 { font-family: 'Playfair Display', serif; color: var(--text-color); margin-bottom: 25px; font-size: 24px; }
+        .box h2 { font-family: 'Playfair Display'; color: var(--text-color); margin-bottom: 25px; font-size: 24px; }
         .box h3 { color: var(--text-color); margin-bottom: 15px; font-size: 18px; }
 
         .form-group { margin-bottom: 15px; }
@@ -62,21 +55,17 @@
         .payment-option i { font-size: 20px; color: var(--dark-pink); width: 25px; text-align: center; }
 
         .btn-place-order { background: var(--dark-pink); color: white; width: 100%; padding: 16px; border: none; border-radius: 12px; font-size: 18px; font-weight: 600; cursor: pointer; transition: 0.3s; margin-top: 25px; }
-        .btn-place-order:hover { background: #b56a6f; transform: translateY(-2px); }
+        .btn-place-order:hover { background: #C5408A; transform: translateY(-2px); }
 
         .summary-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border-color); font-size: 15px; color: var(--text-color); }
         .summary-row.total { border-top: 2px solid var(--dark-pink); padding-top: 15px; margin-top: 10px; font-size: 20px; font-weight: 700; color: var(--dark-pink); }
         
         @media (max-width: 768px) { .checkout-layout { flex-direction: column; } }
-        @media (max-width: 600px) {
-            .top-header { flex-direction: column; gap: 15px; }
-            .header-links { display: flex; flex-wrap: wrap; justify-content: center; }
-        }
+        @media (max-width: 600px) { .top-header { flex-direction: column; gap: 15px; } .header-links { display: flex; flex-wrap: wrap; justify-content: center; } }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- ===== الشريط العلوي ===== -->
         <header class="top-header">
             <div class="logo"><i class="fas fa-seedling"></i> ROSE</div>
             <div class="header-actions">
@@ -86,21 +75,21 @@
                     <a href="offers.html" id="linkOffers" style="color: #e74c3c;"><i class="fas fa-tags"></i> Offers</a>
                     <a href="wishlist.html" id="linkWishlist"><i class="fas fa-heart"></i> Wishlist</a>
                     <a href="cart.html" id="linkCart"><i class="fas fa-shopping-cart"></i> Cart</a>
+                    <a href="login.html" id="linkLogin"><i class="fas fa-user"></i> Login</a>
                 </div>
-                <button class="lang-switch-btn" onclick="toggleLang()" id="langBtn">🌐 </button>
+                <button class="lang-switch-btn" onclick="toggleLang()" id="langBtn">🌐</button>
                 <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
             </div>
         </header>
 
         <div class="checkout-layout">
-            <!-- ===== القسم الأيسر: تفاصيل العميل ===== -->
+            <!-- القسم الأيسر: تفاصيل العميل -->
             <div class="box" style="flex: 1.5;">
                 <h2 id="titleCheckout">Complete Your Order</h2>
-                
-                <form onsubmit="event.preventDefault(); alert('Order Placed Successfully!');">
+                <form onsubmit="handlePlaceOrder(event)">
                     <div class="form-group">
                         <label id="labelName">Full Name</label>
-                        <input type="text" id="inputName" required>
+                        <input type="text" id="inputName"  required>
                     </div>
                     <div class="form-group">
                         <label id="labelEmail">Email Address</label>
@@ -112,16 +101,15 @@
                     </div>
                     <div class="form-group">
                         <label id="labelAddress">Shipping Address</label>
-                        <input type="text" id="inputAddress" required>
+                        <input type="text" id="inputAddress"  required>
                     </div>
                     
                     <div class="delivery-time-box">
                         <p id="deliveryText"><strong><i class="fas fa-truck"></i> Estimated Delivery:</strong> 2-3 Business Days</p>
                     </div>
 
-                    <h3 id="mapTitle" style="margin-top: 25px;"></h3>
+                    <h3 id="mapTitle" style="margin-top: 25px;">🇵🇸 Our Location (Ramallah, Palestine)</h3>
                     <div class="map-container">
-                        <!-- خريطة Google Maps لفلسطين (القدس/رام الله) -->
                         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d27166.098312100696!2d35.2021523!3d31.9037616!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x151d30d37d4b2e35%3A0x3c10c29fb02cd8d2!2sRamallah!5e0!3m2!1sen!2s!4v1700000000000" allowfullscreen="" loading="lazy"></iframe>
                     </div>
                     
@@ -140,24 +128,19 @@
                             <i class="fab fa-paypal"></i> <span id="payPaypal">PayPal</span>
                         </label>
                     </div>
-                    <button type="submit" class="btn-place-order" id="btnPlaceOrder">Place Order (27.90 JD)</button>
+                    <button type="submit" class="btn-place-order" id="btnPlaceOrder">Place Order</button>
                 </form>
             </div>
 
-            <!-- ===== القسم الأيمن: ملخص الطلب ===== -->
+            <!-- القسم الأيمن: ملخص الطلب (ديناميكي من السلة) -->
             <div class="box" style="flex: 1;">
                 <h2 id="summaryTitle">Order Summary</h2>
-                <div class="summary-row">
-                    <span id="item1Name">Rose Glow Serum (x1)</span> 
-                    <span style="color: var(--dark-pink);">8.90 JD</span>
-                </div>
-                <div class="summary-row">
-                    <span id="item2Name">Hydrating Moisturizer (x2)</span> 
-                    <span style="color: var(--dark-pink);">19.00 JD</span>
+                <div id="summaryItems">
+                    <!-- سيتم تعبئة المنتجات هنا ديناميكياً -->
                 </div>
                 <div class="summary-row">
                     <span id="subTotalLabel">Subtotal</span>
-                    <span>27.90 JD</span>
+                    <span id="subTotalValue">0.00 JD</span>
                 </div>
                 <div class="summary-row">
                     <span id="shippingLabel">Shipping</span>
@@ -165,13 +148,101 @@
                 </div>
                 <div class="summary-row total">
                     <span id="totalLabel">Total</span>
-                    <span>27.90 JD</span>
+                    <span id="totalValue">0.00 JD</span>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
+        // ============================================================
+        // قراءة المنتجات من السلة وتحديث الملخص
+        // ============================================================
+        function loadCheckoutSummary() {
+            const cartItems = JSON.parse(localStorage.getItem('shoppingCart')) || [];
+            const container = document.getElementById('summaryItems');
+            container.innerHTML = '';
+            
+            if (cartItems.length === 0) {
+                container.innerHTML = '<p style="color:#999; text-align:center; grid-column:1/-1;">Your cart is empty.</p>';
+                document.getElementById('subTotalValue').innerText = '0.00 JD';
+                document.getElementById('totalValue').innerText = '0.00 JD';
+                return;
+            }
+
+            let subtotal = 0;
+            cartItems.forEach(item => {
+                const total = item.price * item.qty;
+                subtotal += total;
+                const div = document.createElement('div');
+                div.className = 'summary-row';
+                div.innerHTML = `
+                    <span>${item.name} (x${item.qty})</span>
+                    <span style="color: var(--dark-pink);">${total.toFixed(2)} JD</span>
+                `;
+                container.appendChild(div);
+            });
+
+            document.getElementById('subTotalValue').innerText = subtotal.toFixed(2) + ' JD';
+            document.getElementById('totalValue').innerText = subtotal.toFixed(2) + ' JD';
+        }
+
+        // ============================================================
+        // دالة إتمام الطلب (حفظ الطلب للأدمن)
+        // ============================================================
+        function handlePlaceOrder(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('inputName').value.trim();
+            const email = document.getElementById('inputEmail').value.trim();
+            const phone = document.getElementById('inputPhone').value.trim();
+            const address = document.getElementById('inputAddress').value.trim();
+            const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
+
+            if (!name || !email || !phone || !address) {
+                alert("Please fill in all required fields.");
+                return;
+            }
+
+            const cartItems = JSON.parse(localStorage.getItem('shoppingCart')) || [];
+            if (cartItems.length === 0) {
+                alert("Your cart is empty.");
+                return;
+            }
+
+            let total = 0;
+            cartItems.forEach(item => {
+                total += item.price * item.qty;
+            });
+
+            // إنشاء كائن الطلب
+            const newOrder = {
+                id: "#" + Math.floor(Math.random() * 90000 + 10000),
+                customer: name,
+                email: email,
+                phone: phone,
+                address: address,
+                items: cartItems,
+                total: total.toFixed(2) + ' JD',
+                status: "pending",
+                payment: paymentMethod,
+                date: new Date().toLocaleString()
+            };
+
+            // قراءة الطلبات السابقة
+            let allOrders = JSON.parse(localStorage.getItem('adminOrders')) || [];
+            allOrders.unshift(newOrder);
+            localStorage.setItem('adminOrders', JSON.stringify(allOrders));
+
+            // إفراغ السلة بعد الشراء
+            localStorage.removeItem('shoppingCart');
+
+            alert("Order placed successfully!");
+            
+            // ✅ تم التغيير هنا: العودة إلى صفحة المنتجات بدلاً من الصفحة الرئيسية
+            window.location.href = 'products.html';
+        }
+
         // ===== وظائف الدفع =====
         function selectPayment(element) {
             document.querySelectorAll('.payment-option').forEach(el => el.classList.remove('active'));
@@ -186,18 +257,16 @@
                 title: "Complete Your Order", name: "Full Name", email: "Email Address", phone: "Phone Number",
                 address: "Shipping Address", delivery: "<strong><i class='fas fa-truck'></i> Estimated Delivery:</strong> 2-3 Business Days",
                 map: "🇵🇸 Our Location (Ramallah, Palestine)", payTitle: "Payment Method", card: "Credit / Debit Card",
-                cash: "Cash on Delivery", paypal: "PayPal", btn: "Place Order (27.90 JD)", sumTitle: "Order Summary",
-                it1: "Rose Glow Serum (x1)", it2: "Hydrating Moisturizer (x2)", sub: "Subtotal", ship: "Shipping",
-                shipCost: "Free", total: "Total", langBtn: "🌐 EN"
+                cash: "Cash on Delivery", paypal: "PayPal", btn: "Place Order", sumTitle: "Order Summary",
+                sub: "Subtotal", ship: "Shipping", shipCost: "Free", total: "Total", langBtn: "🌐"
             },
             ar: {
                 home: "الرئيسية", products: "المنتجات", offers: "خصومات", wishlist: "المفضلة", cart: "السلة",
                 title: "إكمال الطلب", name: "الاسم الكامل", email: "البريد الإلكتروني", phone: "رقم الهاتف",
                 address: "عنوان الشحن", delivery: "<strong><i class='fas fa-truck'></i> وقت التوصيل المتوقع:</strong> 2-3 أيام عمل",
                 map: "🇵🇸 موقعنا (رام الله، فلسطين)", payTitle: "طرق الدفع", card: "بطاقة ائتمان / خصم",
-                cash: "الدفع عند الاستلام", paypal: "باي بال (PayPal)", btn: "تأكيد الطلب (27.90 JD)", sumTitle: "ملخص الطلب",
-                it1: "سيروم الورد (x1)", it2: "مرطب الترطيب (x2)", sub: "المجموع الفرعي", ship: "الشحن",
-                shipCost: "مجاني", total: "الإجمالي", langBtn: "🌐"
+                cash: "الدفع عند الاستلام", paypal: "باي بال (PayPal)", btn: "تأكيد الطلب", sumTitle: "ملخص الطلب",
+                sub: "المجموع الفرعي", ship: "الشحن", shipCost: "مجاني", total: "الإجمالي", langBtn: "🌐"
             }
         };
         let currentLang = 'en';
@@ -205,13 +274,11 @@
         function toggleLang() {
             currentLang = currentLang === 'en' ? 'ar' : 'en';
             const t = translations[currentLang];
-            
             document.getElementById('linkHome').innerText = t.home;
             document.getElementById('linkProducts').innerText = t.products;
             document.getElementById('linkOffers').innerHTML = `<i class="fas fa-tags"></i> ${t.offers}`;
             document.getElementById('linkWishlist').innerHTML = `<i class="fas fa-heart"></i> ${t.wishlist}`;
             document.getElementById('linkCart').innerHTML = `<i class="fas fa-shopping-cart"></i> ${t.cart}`;
-            
             document.getElementById('titleCheckout').innerText = t.title;
             document.getElementById('labelName').innerText = t.name;
             document.getElementById('labelEmail').innerText = t.email;
@@ -225,8 +292,6 @@
             document.getElementById('payPaypal').innerText = t.paypal;
             document.getElementById('btnPlaceOrder').innerText = t.btn;
             document.getElementById('summaryTitle').innerText = t.sumTitle;
-            document.getElementById('item1Name').innerText = t.it1;
-            document.getElementById('item2Name').innerText = t.it2;
             document.getElementById('subTotalLabel').innerText = t.sub;
             document.getElementById('shippingLabel').innerText = t.ship;
             document.getElementById('shippingCost').innerText = t.shipCost;
@@ -238,36 +303,14 @@
         function toggleTheme() {
             document.body.classList.toggle('dark-mode');
             const btn = document.getElementById('themeBtn');
-            if (document.body.classList.contains('dark-mode')) {
-                btn.innerHTML = '☀️';
-                localStorage.setItem('theme', 'dark');
-            } else {
-                btn.innerHTML = '🌙';
-                localStorage.setItem('theme', 'light');
-            }
+            if (document.body.classList.contains('dark-mode')) { btn.innerHTML = '☀️'; localStorage.setItem('theme', 'dark'); }
+            else { btn.innerHTML = '🌙'; localStorage.setItem('theme', 'light'); }
         }
 
         // ===== التحميل الأولي =====
         window.onload = function() {
-            if (localStorage.getItem('theme') === 'dark') {
-                document.body.classList.add('dark-mode');
-                document.getElementById('themeBtn').innerHTML = '☀️';
-            }
-            // تحميل اللغة المحفوظة من رابط السلة
-            const params = new URLSearchParams(window.location.search);
-            const lang = params.get('lang');
-            if (lang === 'ar' || lang === 'en') {
-                currentLang = lang;
-                toggleLang();
-            }
-            // ===== حماية صفحة الدفع =====
-
-    // التحقق من حالة تسجيل الدخول
-    if (localStorage.getItem('isLoggedIn') !== 'true') {
-        alert('You must be logged in to proceed to checkout!');
-        window.location.href = 'login.html';
-        return; // يوقف تنفيذ باقي الكود
-    }
+            loadCheckoutSummary();
+            if (localStorage.getItem('theme') === 'dark') { document.body.classList.add('dark-mode'); document.getElementById('themeBtn').innerHTML = '☀️'; }
         };
     </script>
 </body>

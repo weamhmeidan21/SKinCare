@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Products - Rose Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #FFF5FA;      /* خلفية الصفحة */
+            --white: #FFFFFF;         /* البطاقات الرئيسية */
+            --text-color: #7A295A;    /* لون النص الأساسي */
+            --dark-pink: #E754A6;     /* الأزرار والعناوين المهمة */
+            --card-bg: #FFE4F1;       /* خلفية بطاقات المنتجات */
+            --img-bg: #FFD6EA;        /* خلفية الصور */
+            --price-color: #D63384;   /* الأسعار */
+            --border-color: #F8B6D9;  /* الحدود */
+            --shadow: 0 5px 15px rgba(231, 84, 166, 0.12);
+        }
+        body.dark-mode {
+            --bg-color: #1A1018; --white: #2A1A22; --text-color: #F5E2EB; --dark-pink: #E85FAD; --card-bg: #3A2230; --img-bg: #4A2A3A; --price-color: #F07BC0; --border-color: #6A3A50;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background: var(--bg-color); color: var(--text-color); transition: 0.3s; display: flex; min-height: 100vh; }
+        .sidebar { width: 260px; background: var(--white); height: 100vh; position: fixed; padding: 30px; box-shadow: 2px 0 10px rgba(0,0,0,0.03); }
+        .sidebar .logo { font-family: 'Playfair Display'; font-size: 22px; font-weight: 700; color: #b25b60; margin-bottom: 40px; display: block; }
+        .sidebar ul { list-style: none; }
+        .sidebar ul li { margin-bottom: 10px; }
+        .sidebar ul li a { display: flex; align-items: center; gap: 15px; padding: 12px 15px; color: var(--text-color); text-decoration: none; border-radius: 10px; font-weight: 500; transition: 0.3s; }
+        .sidebar ul li a:hover, .sidebar ul li a.active { background: var(--card-bg); color: var(--dark-pink); }
+        .sidebar .logout { margin-top: 50px; color: #e74c3c !important; }
+        
+        .main-content { margin-left: 260px; flex: 1; padding: 30px; }
+        .header-title { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .header-title h1 { font-family: 'Playfair Display'; color: var(--text-color); }
+        .btn-add { background: var(--dark-pink); color: white; border: none; padding: 10px 25px; border-radius: 25px; cursor: pointer; font-weight: 600; transition: 0.3s; }
+        .btn-add:hover { background: #C5408A; }
+        
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+        .product-card { background: var(--white); padding: 15px; border-radius: 15px; text-align: center; position: relative; box-shadow: var(--shadow); }
+        .product-card img { width: 100%; height: 150px; object-fit: contain; border-radius: 10px; background: var(--img-bg); }
+        .product-card h4 { color: var(--text-color); margin: 10px 0 5px; }
+        .product-card .price { color: var(--price-color); font-weight: 600; }
+        .product-card .stock-badge { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 600; margin-top: 5px; }
+        .product-card .stock-badge.instock { background: #e6f7e6; color: #2e7d32; }
+        .product-card .stock-badge.almost { background: #fff3cd; color: #856404; }
+        .product-card .stock-badge.out { background: #ffebee; color: #c62828; }
+        .product-card .actions { display: flex; justify-content: center; gap: 10px; margin-top: 10px; }
+        
+        .action-btn { border: none; background: transparent; cursor: pointer; font-size: 16px; transition: 0.3s; padding: 5px 10px; border-radius: 5px; }
+        .action-btn.edit { color: #2196F3; }
+        .action-btn.edit:hover { background: #e3f2fd; }
+        .action-btn.delete { color: #f44336; }
+        .action-btn.delete:hover { background: #ffebee; }
+        
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000; }
+        .modal-content { background: var(--white); padding: 30px; border-radius: 20px; width: 500px; max-width: 90%; box-shadow: var(--shadow); }
+        .modal-content h2 { color: var(--text-color); margin-bottom: 20px; }
+        .form-group { margin-bottom: 15px; text-align: left; }
+        .form-group label { display: block; font-weight: 600; color: var(--text-color); margin-bottom: 5px; font-size: 14px; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 0; font-family: inherit; background: var(--bg-color); color: var(--text-color); }
+        .form-group textarea { height: 80px; resize: vertical; }
+        .modal-content .btn-save { background: var(--dark-pink); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; margin-top: 10px; width: 100%; }
+        .modal-content .btn-close { background: #999; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; margin-left: 10px; }
+        @media (max-width: 768px) { .sidebar { width: 100%; height: auto; position: relative; } .main-content { margin-left: 0; } }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <a href="#" class="logo"><i class="fas fa-leaf"></i> Rose Admin</a>
+        <ul>
+            <li><a href="admin-dashboard.html"><i class="fas fa-th-large"></i> Dashboard</a></li>
+            <li><a href="admin-products.html" class="active"><i class="fas fa-box"></i> Products</a></li>
+            <li><a href="admin-orders.html"><i class="fas fa-shopping-bag"></i> Orders</a></li>
+            <li><a href="admin-login.html" class="logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <div class="header-title">
+            <h1>Manage Products</h1>
+            <button class="btn-add" onclick="openAddModal()"><i class="fas fa-plus"></i> Add Product</button>
+        </div>
+        <div class="product-grid" id="productGrid"></div>
+    </main>
+
+    <!-- نافذة إضافة منتج -->
+    <div class="modal-overlay" id="addModal">
+        <div class="modal-content">
+            <h2>Add New Product</h2>
+            <div class="form-group"><label>Product Name</label><input type="text" id="addName" placeholder="Example: Rose Glow Serum"></div>
+            <div class="form-group"><label>Price (JD)</label><input type="text" id="addPrice" placeholder="Example: 9.50 JD"></div>
+            <div class="form-group"><label>Category</label><select id="addCategory"><option>Cleanser</option><option>Toner</option><option>Moisturizer</option><option>Sunscreen</option><option>Perfume</option></select></div>
+            <div class="form-group"><label>Stock Quantity</label><input type="number" id="addStock" placeholder="Example: 50" value="10"></div>
+            <div class="form-group"><label>Discount (%)</label><input type="number" id="addDiscount" placeholder="Example: 20" min="0" max="100" value="0"></div>
+            <div class="form-group"><label>Product Image</label><input type="file" id="addImage" accept="image/*"></div>
+            <div class="form-group"><label>Description</label><textarea id="addDesc" placeholder="Write a short description..."></textarea></div>
+            <button class="btn-save" onclick="addProduct()">Save Product</button>
+            <button class="btn-close" onclick="closeAddModal()">Cancel</button>
+        </div>
+    </div>
+
+    <!-- نافذة تعديل منتج -->
+    <div class="modal-overlay" id="editModal">
+        <div class="modal-content">
+            <h2>Edit Product</h2>
+            <input type="hidden" id="editId">
+            <div class="form-group"><label>Product Name</label><input type="text" id="editName" placeholder="Product Name"></div>
+            <div class="form-group"><label>Price (JD)</label><input type="text" id="editPrice" placeholder="Price"></div>
+            <div class="form-group"><label>Category</label><select id="editCategory"><option>Cleanser</option><option>Toner</option><option>Moisturizer</option><option>Sunscreen</option><option>Perfume</option></select></div>
+            <div class="form-group"><label>Stock Quantity</label><input type="number" id="editStock" placeholder="Stock Quantity"></div>
+            <div class="form-group"><label>Discount (%)</label><input type="number" id="editDiscount" placeholder="Discount" min="0" max="100"></div>
+            <div class="form-group"><label>Product Image</label><input type="file" id="editImage" accept="image/*"></div>
+            <div class="form-group"><label>Description</label><textarea id="editDesc" placeholder="Description"></textarea></div>
+            <button class="btn-save" onclick="saveEditProduct()">Save Changes</button>
+            <button class="btn-close" onclick="closeEditModal()">Cancel</button>
+        </div>
+    </div>
+
+    <script>
+        let products = JSON.parse(localStorage.getItem('adminProducts')) || [];
+
+        function renderProducts() {
+            const grid = document.getElementById('productGrid');
+            grid.innerHTML = '';
+            if (products.length === 0) {
+                grid.innerHTML = '<p style="text-align:center; color:#999; grid-column:1/-1;">No products added yet.</p>';
+                return;
+            }
+            products.forEach(p => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+
+                let stockHtml = '';
+                if (p.stock > 5) {
+                    stockHtml = `<span class="stock-badge instock">In Stock (${p.stock})</span>`;
+                } else if (p.stock > 0 && p.stock <= 5) {
+                    stockHtml = `<span class="stock-badge almost">⚠️ Almost Sold Out (${p.stock})</span>`;
+                } else {
+                    stockHtml = `<span class="stock-badge out">❌ Out of Stock</span>`;
+                }
+
+                card.innerHTML = `
+                    <img src="${p.img}" alt="${p.name}">
+                    <h4>${p.name}</h4>
+                    <div class="price">${p.price}</div>
+                    ${stockHtml}
+                    <div class="actions">
+                        <button class="action-btn edit" onclick="openEditModal(${p.id})"><i class="fas fa-edit"></i></button>
+                        <button class="action-btn delete" onclick="deleteProduct(${p.id})"><i class="fas fa-trash-alt"></i></button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // ===== إضافة منتج =====
+        function openAddModal() { document.getElementById('addModal').style.display = 'flex'; }
+        function closeAddModal() { document.getElementById('addModal').style.display = 'none'; }
+
+        function addProduct() {
+            const name = document.getElementById('addName').value.trim();
+            const price = document.getElementById('addPrice').value.trim();
+            const cat = document.getElementById('addCategory').value;
+            const stock = parseInt(document.getElementById('addStock').value) || 0;
+            const discount = parseInt(document.getElementById('addDiscount').value) || 0;
+            const desc = document.getElementById('addDesc').value.trim();
+            const fileInput = document.getElementById('addImage');
+
+            if (!name || !price) return alert("Please fill in Name and Price");
+
+            let imgSrc = "https://via.placeholder.com/200";
+            if (fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) { imgSrc = e.target.result; saveNewProduct(name, price, cat, imgSrc, desc, discount, stock); };
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                saveNewProduct(name, price, cat, imgSrc, desc, discount, stock);
+            }
+        }
+
+        function saveNewProduct(name, price, cat, img, desc, discount, stock) {
+            const newId = products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1;
+            const newProduct = { id: newId, name, price, category: cat, img, desc: desc || "A high-quality skincare product.", discount, stock };
+            products.push(newProduct);
+            localStorage.setItem('adminProducts', JSON.stringify(products));
+            renderProducts();
+            closeAddModal();
+            document.getElementById('addName').value = '';
+            document.getElementById('addPrice').value = '';
+            document.getElementById('addImage').value = '';
+            document.getElementById('addDesc').value = '';
+            document.getElementById('addDiscount').value = 0;
+            document.getElementById('addStock').value = 10;
+            alert("Product added successfully!");
+        }
+
+        // ===== تعديل منتج =====
+        function openEditModal(id) {
+            const p = products.find(item => item.id === id);
+            if (!p) return;
+            document.getElementById('editId').value = p.id;
+            document.getElementById('editName').value = p.name;
+            document.getElementById('editPrice').value = p.price;
+            document.getElementById('editCategory').value = p.category;
+            document.getElementById('editStock').value = p.stock || 0;
+            document.getElementById('editDiscount').value = p.discount || 0;
+            document.getElementById('editDesc').value = p.desc || '';
+            document.getElementById('editModal').style.display = 'flex';
+        }
+
+        function closeEditModal() { document.getElementById('editModal').style.display = 'none'; }
+
+        function saveEditProduct() {
+            const id = parseInt(document.getElementById('editId').value);
+            const name = document.getElementById('editName').value.trim();
+            const price = document.getElementById('editPrice').value.trim();
+            const cat = document.getElementById('editCategory').value;
+            const stock = parseInt(document.getElementById('editStock').value) || 0;
+            const discount = parseInt(document.getElementById('editDiscount').value) || 0;
+            const desc = document.getElementById('editDesc').value.trim();
+            const fileInput = document.getElementById('editImage');
+
+            const index = products.findIndex(p => p.id === id);
+            if (index === -1) return alert("Product not found!");
+
+            let imgSrc = products[index].img;
+            if (fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) { imgSrc = e.target.result; applyEdit(index, name, price, cat, imgSrc, desc, discount, stock); };
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                applyEdit(index, name, price, cat, imgSrc, desc, discount, stock);
+            }
+        }
+
+        function applyEdit(index, name, price, cat, img, desc, discount, stock) {
+            products[index] = { ...products[index], name, price, category: cat, img, desc, discount, stock };
+            localStorage.setItem('adminProducts', JSON.stringify(products));
+            renderProducts();
+            closeEditModal();
+            alert("Product updated successfully!");
+        }
+
+        // ===== حذف منتج =====
+        function deleteProduct(id) {
+            if (!confirm("Are you sure you want to delete this product?")) return;
+            products = products.filter(p => p.id !== id);
+            localStorage.setItem('adminProducts', JSON.stringify(products));
+            renderProducts();
+        }
+
+        renderProducts();
+    </script>
+</body>
+</html>

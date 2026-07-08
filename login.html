@@ -8,13 +8,22 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --bg-color: #fffafb; --white: #ffffff; --text-color: #5a4c4c; --dark-pink: #d6858a;
-            --border-color: #e0d0d0; --shadow: 0 10px 30px rgba(0,0,0,0.05);
+            --bg-color: #FFF5FA;
+            --white: #FFFFFF;
+            --text-color: #7A295A;
+            --dark-pink: #E754A6;
+            --border-color: #F8B6D9;
+            --shadow: 0 10px 30px rgba(231, 84, 166, 0.12);
         }
         body.dark-mode {
-            --bg-color: #1a1a1a; --white: #2c2c2c; --text-color: #e0e0e0; --dark-pink: #e690a0;
-            --border-color: #555; --shadow: 0 10px 30px rgba(255,255,255,0.05);
+            --bg-color: #1A1018;
+            --white: #2A1A22;
+            --text-color: #F5E2EB;
+            --dark-pink: #E85FAD;
+            --border-color: #6A3A50;
+            --shadow: 0 10px 30px rgba(255,255,255,0.05);
         }
+        
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
         body { background: var(--bg-color); color: var(--text-color); transition: 0.3s; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
         .container { max-width: 1000px; width: 100%; }
@@ -31,10 +40,7 @@
         .header-actions { display: flex; align-items: center; gap: 15px; }
         .header-links a { color: var(--text-color); text-decoration: none; font-weight: 500; margin: 0 10px; transition: 0.3s; }
         .header-links a:hover { color: var(--dark-pink); }
-        .theme-btn, .lang-switch-btn {
-            background: transparent; border: 1px solid var(--border-color); padding: 5px 15px; border-radius: 20px;
-            cursor: pointer; font-weight: 500; font-size: 14px; color: var(--text-color);
-        }
+        .theme-btn, .lang-switch-btn { background: transparent; border: 1px solid var(--border-color); padding: 5px 15px; border-radius: 20px; cursor: pointer; font-weight: 500; font-size: 14px; color: var(--text-color); }
         
         .login-content {
             background: var(--white); border-radius: 20px; padding: 50px; box-shadow: var(--shadow);
@@ -55,7 +61,8 @@
             width: 100%; padding: 14px; background: var(--dark-pink); color: white; border: none;
             border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.3s;
         }
-        .login-btn:hover { background: #b56a6f; transform: translateY(-2px); }
+        .login-btn:hover { background: #C5408A; transform: translateY(-2px); }
+        
         .form-footer { text-align: center; margin-top: 20px; font-size: 14px; color: #888; }
         .form-footer a { color: var(--dark-pink); text-decoration: none; font-weight: 600; }
         
@@ -89,7 +96,7 @@
         <form onsubmit="handleLogin(event)">
             <div class="form-group">
                 <label id="labelEmail">Email Address</label>
-                <input type="email" id="inputEmail" placeholder="****@gmail.com" required>
+                <input type="email" id="inputEmail" placeholder="you@example.com" required>
             </div>
             <div class="form-group">
                 <label id="labelPass">Password</label>
@@ -103,28 +110,54 @@
     </div>
 
     <script>
-        // دالة تسجيل الدخول (تحفظ الحالة في المتصفح)
+        // ===== دالة تسجيل الدخول الذكية =====
         function handleLogin(e) {
             e.preventDefault();
-            // هنا في المستقبل تضع كود التحقق من قاعدة البيانات
-            localStorage.setItem('isLoggedIn', 'true');
-            alert('Login Successful!');
-            window.location.href = 'index.html';
+            
+            // التحقق من صحة البيانات
+            const email = document.getElementById('inputEmail').value;
+            const password = document.getElementById('inputPass').value;
+            
+            // محاكاة التحقق (يمكنك تعديلها لاحقاً لتتوافق مع قاعدة البيانات)
+            if (email && password) {
+                // حفظ حالة تسجيل الدخول
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('userEmail', email);
+                
+                alert('Login Successful!');
+                
+                // ✅ الخطوة الذهبية: العودة إلى الصفحة السابقة
+                const redirectUrl = localStorage.getItem('redirectAfterLogin');
+                if (redirectUrl && redirectUrl !== 'login.html') {
+                    // إذا كانت هناك صفحة محفوظة، نذهب إليها
+                    window.location.href = redirectUrl;
+                } else {
+                    // إذا لم تكن هناك صفحة محفوظة، نذهب للصفحة الرئيسية
+                    window.location.href = 'index.html';
+                }
+            } else {
+                alert('Please enter a valid email and password.');
+            }
         }
 
-        // إذا كان المستخدم مسجل الدخول بالفعل، وذهب لصفحة اللوجين، نوجهه للصفحة الرئيسية
+        // ===== تحميل الصفحة =====
         window.onload = function() {
-            if (localStorage.getItem('isLoggedIn') === 'true') {
-                // يمكنك إزالة هذا الشرط إذا أردت السماح له بالدخول مرة أخرى
-                // alert('You are already logged in! Redirecting...');
-                // window.location.href = 'index.html';
-            }
             if (localStorage.getItem('theme') === 'dark') {
                 document.body.classList.add('dark-mode');
                 document.getElementById('themeBtn').innerHTML = '☀️';
             }
-        }
+            
+            // 🔹 مهم جداً: عند تحميل صفحة اللوجين، نقوم بحفظ الصفحة السابقة
+            // نتحقق من أين جاء المستخدم (referrer) ونحفظه
+            const currentUrl = window.location.href;
+            // نستثني صفحة اللوجين نفسها والـ ساين أب
+            if (!currentUrl.includes('login.html') && !currentUrl.includes('signup.html')) {
+                // حفظ الصفحة الحالية للعودة إليها بعد تسجيل الدخول
+                localStorage.setItem('redirectAfterLogin', currentUrl);
+            }
+        };
 
+        // ===== الترجمة =====
         const translations = {
             en: {
                 home: "Home", products: "Products", offers: "Offers", wishlist: "Wishlist", cart: "Cart", login: "Login",

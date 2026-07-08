@@ -7,11 +7,27 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root { --bg-color: #fffafb; --white: #ffffff; --text-color: #5a4c4c; --dark-pink: #d6858a; --card-bg: #fdf5f6; --img-bg: #f8d7da; --price-color: #c46a6a; --star-color: #ffaa00; --border-color: #e0d0d0; }
-        body.dark-mode { --bg-color: #1a1a1a; --white: #2c2c2c; --text-color: #e0e0e0; --dark-pink: #e690a0; --card-bg: #3a3a3a; --img-bg: #444; --price-color: #f0a0b0; --border-color: #555; }
+        :root { 
+            --bg-color: #FFF5FA;      /* خلفية الصفحة */
+            --white: #FFFFFF;         /* البطاقات الرئيسية */
+            --text-color: #7A295A;    /* لون النص الأساسي */
+            --dark-pink: #E754A6;     /* الأزرار والعناوين المهمة */
+            --card-bg: #FFE4F1;       /* خلفية بطاقات المنتجات */
+            --img-bg: #FFD6EA;        /* خلفية الصور */
+            --price-color: #D63384;   /* الأسعار */
+            --star-color: #FFB300;    /* النجوم */
+            --border-color: #F8B6D9;  /* الحدود */
+            --shadow: 0 5px 15px rgba(231, 84, 166, 0.12);
+        }
+        body.dark-mode {
+            --bg-color: #1A1018; --white: #2A1A22; --text-color: #F5E2EB; --dark-pink: #E85FAD;
+            --card-bg: #3A2230; --img-bg: #4A2A3A; --price-color: #F07BC0; --border-color: #6A3A50;
+        }
+        
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        body { background: var(--bg-color); color: var(--text-color); transition: 0.3s; padding: 20px; display: flex; justify-content: center; }
+        body { background: var(--bg-color); color: var(--text-color); transition: 0.3s; padding: 20px; display: flex; justify-content: center; min-height: 100vh; }
         .container { max-width: 1400px; width: 100%; }
+        
         .top-header { display: flex; justify-content: space-between; align-items: center; background: var(--white); padding: 15px 30px; border-radius: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 30px; }
         .top-header .logo { font-family: 'Playfair Display'; font-size: 28px; font-weight: 700; color: #b25b60; }
         .top-header .logo i { color: #f7b2b7; }
@@ -19,6 +35,7 @@
         .header-links a { color: var(--text-color); text-decoration: none; font-weight: 500; margin: 0 10px; transition: 0.3s; }
         .header-links a:hover { color: var(--dark-pink); }
         .theme-btn, .lang-switch-btn { background: transparent; border: 1px solid var(--border-color); padding: 5px 15px; border-radius: 20px; cursor: pointer; font-weight: 500; font-size: 14px; color: var(--text-color); }
+        
         .section-title { text-align: center; font-family: 'Playfair Display', serif; font-size: 28px; color: var(--text-color); margin-bottom: 20px; }
         .search-filter-wrapper { display: flex; flex-direction: column; align-items: center; gap: 20px; margin-bottom: 40px; }
         .search-container { position: relative; width: 100%; max-width: 500px; }
@@ -28,22 +45,31 @@
         .filter-container { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
         .filter-btn { background: var(--white); border: 1px solid var(--border-color); padding: 8px 20px; border-radius: 25px; cursor: pointer; font-size: 14px; font-weight: 500; transition: 0.3s; color: var(--text-color); }
         .filter-btn:hover, .filter-btn.active { background: var(--dark-pink); color: white; }
+        
         .product-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; margin-top: 10px; }
-        .product-card-wrapper { position: relative; text-decoration: none; color: inherit; display: block; transition: 0.3s; }
-        .product-card-wrapper:hover { transform: translateY(-5px); }
-        .product-card { background: var(--card-bg); border-radius: 12px; padding: 20px; text-align: center; transition: 0.3s; }
-        .product-card-wrapper:hover .product-card { box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .product-card-wrapper { position: relative; text-decoration: none; color: inherit; display: block; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .product-card-wrapper:hover { transform: translateY(-10px) scale(1.02); }
+        .product-card { background: var(--card-bg); border-radius: 12px; padding: 20px; text-align: center; transition: 0.3s; box-shadow: var(--shadow); }
+        .product-card-wrapper:hover .product-card { box-shadow: 0 15px 35px rgba(231, 84, 166, 0.2); }
         .product-img-wrapper { background: var(--img-bg); border-radius: 10px; padding: 15px; margin-bottom: 15px; height: 180px; display: flex; align-items: center; justify-content: center; }
-        .product-img-wrapper img { max-width: 100%; max-height: 100%; object-fit: contain; mix-blend-mode: multiply; }
+        .product-img-wrapper img { max-width: 100%; max-height: 100%; object-fit: contain; }
         .product-title { font-size: 14px; font-weight: 500; color: var(--text-color); margin-bottom: 6px; height: 40px; display: flex; align-items: center; justify-content: center; }
         .price-row { display: flex; justify-content: center; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 6px; }
         .product-price { font-size: 14px; font-weight: 600; color: var(--price-color); }
         .product-old-price { font-size: 12px; color: #999; text-decoration: line-through; }
         .product-rating { color: var(--star-color); font-size: 12px; }
-        .wishlist-btn { position: absolute; top: 10px; right: 10px; background: var(--white); border: none; border-radius: 50%; width: 35px; height: 35px; cursor: pointer; box-shadow: 0 2px 10px rgba(0,0,0,0.1); font-size: 18px; color: #ccc; transition: 0.3s; z-index: 10; }
+        
+        /* زر المفضلة */
+        .wishlist-btn { position: absolute; top: 10px; right: 10px; background: var(--white); border: none; border-radius: 50%; width: 35px; height: 35px; cursor: pointer; box-shadow: 0 2px 10px rgba(0,0,0,0.1); font-size: 18px; color: #ccc; transition: 0.3s; z-index: 10; display: flex; align-items: center; justify-content: center; }
+        .wishlist-btn:hover { transform: scale(1.1); }
         .wishlist-btn.active { color: #e74c3c; }
-        .sale-badge { position: absolute; top: 10px; left: 10px; background: #e74c3c; color: white; padding: 3px 10px; border-radius: 15px; font-size: 12px; font-weight: bold; z-index: 10; }
-        .hidden { display: none !important; }
+        
+        /* حالة المخزون */
+        .stock-badge { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 11px; font-weight: 600; margin-top: 5px; }
+        .stock-badge.almost { background: #fff3cd; color: #856404; }
+        .stock-badge.out { background: #ffebee; color: #c62828; }
+        
+        .disabled-link { pointer-events: none; opacity: 0.6; }
         @media (max-width: 1200px) { .product-grid { grid-template-columns: repeat(4, 1fr); } }
         @media (max-width: 600px) { .top-header { flex-direction: column; gap: 15px; } .header-links { display: flex; flex-wrap: wrap; justify-content: center; } .product-grid { grid-template-columns: repeat(2, 1fr); } }
     </style>
@@ -83,105 +109,166 @@
             </div>
         </div>
         
-        <div class="product-grid" id="productGrid">
-            <!-- منتج 1: عليه خصم 20% -->
-            <div class="product-card-wrapper" data-category="cleanser" data-name="Gentle Foaming Cleanser" data-price="4.00" data-discount="20">
-                <span class="sale-badge">SALE</span>
-                <button class="wishlist-btn" onclick="toggleWishlist(this, 'Gentle Foaming Cleanser', 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=500&auto=format&fit=crop', '4.00', '20')"><i class="far fa-heart"></i></button>
-                <a href="product-details.html?product=Gentle Foaming Cleanser&discount=20" class="product-link">
-                    <div class="product-card">
-                        <div class="product-img-wrapper"><img src="https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=500&auto=format&fit=crop"></div>
-                        <div class="product-title">Gentle Foaming Cleanser</div>
-                        <div class="price-row">
-                            <span class="product-price">4.00 JD</span>
-                            <span class="product-old-price">5.00 JD</span>
-                        </div>
-                        <div class="product-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                    </div>
-                </a>
-            </div>
-
-            <!-- منتج 2: عليه خصم 15% -->
-            <div class="product-card-wrapper" data-category="cleanser" data-name="Rose Water Gel Wash" data-price="5.52" data-discount="15">
-                <span class="sale-badge">SALE</span>
-                <button class="wishlist-btn" onclick="toggleWishlist(this, 'Rose Water Gel Wash', 'https://images.unsplash.com/photo-1608248597279-f99d160bfbc8?w=500&auto=format&fit=crop', '5.52', '15')"><i class="far fa-heart"></i></button>
-                <a href="product-details.html?product=Rose Water Gel Wash&discount=15" class="product-link">
-                    <div class="product-card">
-                        <div class="product-img-wrapper"><img src="https://images.unsplash.com/photo-1608248597279-f99d160bfbc8?w=500&auto=format&fit=crop"></div>
-                        <div class="product-title">Rose Water Gel Wash</div>
-                        <div class="price-row">
-                            <span class="product-price">5.52 JD</span>
-                            <span class="product-old-price">6.50 JD</span>
-                        </div>
-                        <div class="product-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div>
-                    </div>
-                </a>
-            </div>
-
-            <!-- منتج 3: بدون خصم -->
-            <div class="product-card-wrapper" data-category="toner" data-name="Rose Petal Balancing Toner" data-price="6.00" data-discount="0">
-                <button class="wishlist-btn" onclick="toggleWishlist(this, 'Rose Petal Balancing Toner', 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=500&auto=format&fit=crop', '6.00', '0')"><i class="far fa-heart"></i></button>
-                <a href="product-details.html?product=Rose Petal Balancing Toner" class="product-link">
-                    <div class="product-card">
-                        <div class="product-img-wrapper"><img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=500&auto=format&fit=crop"></div>
-                        <div class="product-title">Rose Petal Balancing Toner</div>
-                        <div class="price-row"><span class="product-price">6.00 JD</span></div>
-                        <div class="product-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                    </div>
-                </a>
-            </div>
-            
-            <!-- منتج 4: بدون خصم -->
-            <div class="product-card-wrapper" data-category="moisturizer" data-name="Daily Hydrating Lotion" data-price="9.50" data-discount="0">
-                <button class="wishlist-btn" onclick="toggleWishlist(this, 'Daily Hydrating Lotion', 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=500&auto=format&fit=crop', '9.50', '0')"><i class="far fa-heart"></i></button>
-                <a href="product-details.html?product=Daily Hydrating Lotion" class="product-link">
-                    <div class="product-card"><div class="product-img-wrapper"><img src="https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=500&auto=format&fit=crop"></div><div class="product-title">Daily Hydrating Lotion</div><div class="price-row"><span class="product-price">9.50 JD</span></div><div class="product-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div></div>
-                </a>
-            </div>
-
-        </div>
+        <div class="product-grid" id="productGrid"></div>
     </div>
     
     <script>
+        let products = JSON.parse(localStorage.getItem('adminProducts')) || [];
         let currentCategory = 'all';
-        function setCategory(c) { currentCategory = c; document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active')); document.querySelector(`[onclick*="${c}"]`).classList.add('active'); filterAndSearch(); }
+        
+        let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+
+        function renderProducts() {
+            const grid = document.getElementById('productGrid');
+            grid.innerHTML = '';
+            
+            if (products.length === 0) {
+                grid.innerHTML = '<p style="grid-column:1/-1; text-align:center; color:#999;">No products available.</p>';
+                return;
+            }
+
+            products.forEach((p, index) => {
+                // ✅ التصنيف المضمون باستخدام الكود الذي طلبته
+                const productCategory = (p.category || '').toLowerCase().trim();
+
+                if (
+                    currentCategory !== 'all' &&
+                    productCategory !== currentCategory.toLowerCase()
+                ) {
+                    return;
+                }
+
+                let discountHtml = '';
+                let finalPrice = p.price;
+                if (p.discount && p.discount > 0) {
+                    const original = parseFloat(p.price.replace(' JD', ''));
+                    const discounted = original * (1 - p.discount / 100);
+                    finalPrice = discounted.toFixed(2) + ' JD';
+                    discountHtml = `<span class="product-old-price">${p.price}</span>`;
+                }
+
+                let stockBadge = '';
+                let linkDisabled = '';
+                if (p.stock > 0 && p.stock <= 5) {
+                    stockBadge = `<div class="stock-badge almost">⚠️ Almost Sold Out</div>`;
+                } else if (p.stock === 0) {
+                    stockBadge = `<div class="stock-badge out">❌ Out of Stock</div>`;
+                    linkDisabled = 'disabled-link';
+                }
+                
+                const isFav = wishlist.some(item => item.name === p.name);
+                const favClass = isFav ? 'active' : '';
+                const favIcon = isFav ? 'fas fa-heart' : 'far fa-heart';
+                
+                const wrapper = document.createElement('div');
+                wrapper.className = `product-card-wrapper ${linkDisabled}`;
+                wrapper.innerHTML = `
+                    <button class="wishlist-btn ${favClass}" onclick="toggleWishlist(this, '${p.name}', '${p.img}', '${finalPrice}')"><i class="${favIcon}"></i></button>
+                    <a href="product-details.html?product=${encodeURIComponent(p.name)}" class="product-link">
+                        <div class="product-card">
+                            <div class="product-img-wrapper"><img src="${p.img}" alt="${p.name}"></div>
+                            <div class="product-title">${p.name}</div>
+                            <div class="price-row">
+                                <span class="product-price">${finalPrice}</span>
+                                ${discountHtml}
+                            </div>
+                            ${stockBadge}
+                            <div class="product-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        </div>
+                    </a>
+                `;
+                grid.appendChild(wrapper);
+            });
+        }
+
+        function toggleWishlist(btn, name, img, price) {
+            const exists = wishlist.some(item => item.name === name);
+            if (exists) {
+                wishlist = wishlist.filter(item => item.name !== name);
+                btn.classList.remove('active');
+                btn.innerHTML = '<i class="far fa-heart"></i>';
+            } else {
+                wishlist.push({ name, img, price });
+                btn.classList.add('active');
+                btn.innerHTML = '<i class="fas fa-heart"></i>';
+            }
+            localStorage.setItem('wishlist', JSON.stringify(wishlist));
+        }
+
+        function setCategory(category) {
+            currentCategory = category;
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            document.querySelector(`[onclick*="${category}"]`).classList.add('active');
+            renderProducts();
+        }
+
         function filterAndSearch() {
-            const txt = document.getElementById('searchInput').value.toLowerCase().trim();
-            document.querySelectorAll('.product-card-wrapper').forEach(p=>{
-                const c = p.dataset.category, n = p.dataset.name.toLowerCase();
-                const mCat = currentCategory==='all'||c===currentCategory, mSearch = n.includes(txt);
-                mCat&&mSearch ? p.classList.remove('hidden') : p.classList.add('hidden');
+            const searchText = document.getElementById('searchInput').value.toLowerCase().trim();
+            const grid = document.getElementById('productGrid');
+            grid.innerHTML = '';
+            
+            const filtered = products.filter(p => {
+                const productCategory = (p.category || '').toLowerCase().trim();
+                const matchCat = currentCategory === 'all' || productCategory === currentCategory.toLowerCase();
+                const matchName = p.name.toLowerCase().includes(searchText);
+                return matchCat && matchName;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '<p style="grid-column:1/-1; text-align:center; color:#999;">No products found.</p>';
+                return;
+            }
+
+            filtered.forEach((p, index) => {
+                let discountHtml = '';
+                let finalPrice = p.price;
+                if (p.discount && p.discount > 0) {
+                    const original = parseFloat(p.price.replace(' JD', ''));
+                    const discounted = original * (1 - p.discount / 100);
+                    finalPrice = discounted.toFixed(2) + ' JD';
+                    discountHtml = `<span class="product-old-price">${p.price}</span>`;
+                }
+
+                let stockBadge = '';
+                let linkDisabled = '';
+                if (p.stock > 0 && p.stock <= 5) {
+                    stockBadge = `<div class="stock-badge almost">⚠️ Almost Sold Out</div>`;
+                } else if (p.stock === 0) {
+                    stockBadge = `<div class="stock-badge out">❌ Out of Stock</div>`;
+                    linkDisabled = 'disabled-link';
+                }
+
+                const isFav = wishlist.some(item => item.name === p.name);
+                const favClass = isFav ? 'active' : '';
+                const favIcon = isFav ? 'fas fa-heart' : 'far fa-heart';
+
+                const wrapper = document.createElement('div');
+                wrapper.className = `product-card-wrapper ${linkDisabled}`;
+                wrapper.innerHTML = `
+                    <button class="wishlist-btn ${favClass}" onclick="toggleWishlist(this, '${p.name}', '${p.img}', '${finalPrice}')"><i class="${favIcon}"></i></button>
+                    <a href="product-details.html?product=${encodeURIComponent(p.name)}" class="product-link">
+                        <div class="product-card">
+                            <div class="product-img-wrapper"><img src="${p.img}" alt="${p.name}"></div>
+                            <div class="product-title">${p.name}</div>
+                            <div class="price-row">
+                                <span class="product-price">${finalPrice}</span>
+                                ${discountHtml}
+                            </div>
+                            ${stockBadge}
+                            <div class="product-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        </div>
+                    </a>
+                `;
+                grid.appendChild(wrapper);
             });
         }
 
-        // ===== دالة المفضلة المعدلة لحفظ الخصم =====
-        function toggleWishlist(btn, name, img, price, discount) {
-            let w = JSON.parse(localStorage.getItem('wishlist')) || [];
-            const exists = w.some(i=>i.name===name);
-            if (exists) { 
-                w = w.filter(i=>i.name!==name); 
-                btn.classList.remove('active'); 
-                btn.innerHTML = '<i class="far fa-heart"></i>'; 
-            }
-            else { 
-                // حفظ السعر المخفض ونسبة الخصم
-                w.push({name, img, price, discount}); 
-                btn.classList.add('active'); 
-                btn.innerHTML = '<i class="fas fa-heart"></i>'; 
-            }
-            localStorage.setItem('wishlist', JSON.stringify(w));
-        }
+        const translations = {
+            en: { home: "Home", products: "Products", offers: "Offers", wishlist: "Wishlist", cart: "Cart", login: "Login", title: "Our Skincare Collection", all: "All", cleanser: "Cleansers", toner: "Toners", moist: "Moisturizers", sun: "Sunscreens", perfume: "Perfumes", search: "Search for products...", langBtn: "🌐" },
+            ar: { home: "الرئيسية", products: "المنتجات", offers: "خصومات", wishlist: "المفضلة", cart: "السلة", login: "دخول", title: "مجموعة العناية بالبشرة", all: "الكل", cleanser: "غسول", toner: "تونر", moist: "مرطبات", sun: "واقي شمس", perfume: "عطور", search: "ابحث عن منتجات...", langBtn: "🌐" }
+        };
+        let currentLang = 'en';
 
-        window.onload = function() {
-            const w = JSON.parse(localStorage.getItem('wishlist')) || [];
-            document.querySelectorAll('.wishlist-btn').forEach(b=>{
-                const n = b.getAttribute('onclick').match(/'([^']*)'/g)[1].replace(/'/g, '');
-                if (w.some(i=>i.name===n)) { b.classList.add('active'); b.innerHTML = '<i class="fas fa-heart"></i>'; }
-            });
-            if (localStorage.getItem('theme') === 'dark') { document.body.classList.add('dark-mode'); document.getElementById('themeBtn').innerHTML = '☀️'; }
-        }
-        const translations = { en: { home:"Home", products:"Products", offers:"Offers", wishlist:"Wishlist", cart:"Cart", login:"Login", title:"Our Skincare Collection", all:"All", cleanser:"Cleansers", toner:"Toners", moist:"Moisturizers", sun:"Sunscreens", perfume:"Perfumes", search:"Search...", langBtn:"🌐 EN" }, ar: { home:"الرئيسية", products:"المنتجات", offers:"خصومات", wishlist:"المفضلة", cart:"السلة", login:"دخول", title:"مجموعة العناية بالبشرة", all:"الكل", cleanser:"غسول", toner:"تونر", moist:"مرطبات", sun:"واقي شمس", perfume:"عطور", search:"ابحث...", langBtn:"🌐 ع" } };
-        let currentLang='en';
         function toggleLang() {
             currentLang = currentLang === 'en' ? 'ar' : 'en';
             const t = translations[currentLang];
@@ -192,16 +279,31 @@
             document.getElementById('linkCart').innerHTML = `<i class="fas fa-shopping-cart"></i> ${t.cart}`;
             document.getElementById('linkLogin').innerHTML = `<i class="fas fa-user"></i> ${t.login}`;
             document.getElementById('pageTitle').innerText = t.title;
-            document.getElementById('filterAll').innerText = t.all; document.getElementById('filterCleanser').innerText = t.cleanser;
-            document.getElementById('filterToner').innerText = t.toner; document.getElementById('filterMoist').innerText = t.moist;
-            document.getElementById('filterSun').innerText = t.sun; document.getElementById('filterPerfume').innerText = t.perfume;
-            document.getElementById('searchInput').placeholder = t.search; document.getElementById('langBtn').innerText = t.langBtn;
+            document.getElementById('filterAll').innerText = t.all;
+            document.getElementById('filterCleanser').innerText = t.cleanser;
+            document.getElementById('filterToner').innerText = t.toner;
+            document.getElementById('filterMoist').innerText = t.moist;
+            document.getElementById('filterSun').innerText = t.sun;
+            document.getElementById('filterPerfume').innerText = t.perfume;
+            document.getElementById('searchInput').placeholder = t.search;
+            document.getElementById('langBtn').innerText = t.langBtn;
         }
+
         function toggleTheme() {
-            document.body.classList.toggle('dark-mode'); const b = document.getElementById('themeBtn');
-            if (document.body.classList.contains('dark-mode')) { b.innerHTML='☀️'; localStorage.setItem('theme','dark'); }
-            else { b.innerHTML='🌙'; localStorage.setItem('theme','light'); }
+            document.body.classList.toggle('dark-mode');
+            const btn = document.getElementById('themeBtn');
+            if (document.body.classList.contains('dark-mode')) { btn.innerHTML = '☀️'; localStorage.setItem('theme', 'dark'); }
+            else { btn.innerHTML = '🌙'; localStorage.setItem('theme', 'light'); }
         }
+
+        window.onload = function() {
+            wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+            renderProducts();
+            if (localStorage.getItem('theme') === 'dark') {
+                document.body.classList.add('dark-mode');
+                document.getElementById('themeBtn').innerHTML = '☀️';
+            }
+        };
     </script>
 </body>
 </html>
