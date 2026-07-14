@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - Rose Skincare</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ===== متغيرات الورد ===== */
+        :root {
+            --rose: #ee8587;
+            --rose-dark: #c96c6f;
+            --rose-light: #fff1ee;
+            --brown: #4b2d29;
+            --cream: #fffaf7;
+            --white: #ffffff;
+            --text: #322725;
+            --muted: #746764;
+            --border: #f3dfda;
+            --shadow: 0 18px 40px rgba(153, 84, 77, 0.14);
+            
+            /* مشتقات إضافية */
+            --bg-color: var(--cream);
+            --card-bg: var(--white);
+            --text-color: var(--text);
+            --primary: var(--rose);
+            --primary-dark: var(--rose-dark);
+            --primary-light: var(--rose-light);
+            --border-color: var(--border);
+        }
+
+        /* ===== الوضع الليلي ===== */
+        body.dark-mode {
+            --bg-color: #1f1418;
+            --card-bg: #2d1e22;
+            --text-color: #f5e2e0;
+            --border-color: #5a3d3a;
+            --shadow: 0 18px 40px rgba(0,0,0,0.3);
+            --primary: #f09a9c;
+            --primary-dark: #d68083;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .login-box {
+            background: var(--card-bg);
+            padding: 50px 45px;
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            max-width: 420px;
+            width: 100%;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* ===== زخرفة خفيفة ===== */
+        .login-box::before {
+            content: '';
+            position: absolute;
+            top: -60px;
+            right: -60px;
+            width: 120px;
+            height: 120px;
+            background: var(--rose-light);
+            border-radius: 50%;
+            opacity: 0.4;
+            pointer-events: none;
+        }
+
+        .login-box::after {
+            content: '';
+            position: absolute;
+            bottom: -80px;
+            left: -80px;
+            width: 160px;
+            height: 160px;
+            background: var(--rose-light);
+            border-radius: 50%;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .login-box .icon {
+            font-size: 48px;
+            color: var(--rose);
+            margin-bottom: 12px;
+            background: var(--rose-light);
+            width: 80px;
+            height: 80px;
+            line-height: 80px;
+            border-radius: 50%;
+            display: inline-block;
+            transition: background 0.3s;
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-box h2 {
+            font-family: 'Playfair Display', serif;
+            color: var(--brown);
+            font-size: 28px;
+            margin-bottom: 8px;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-box p {
+            color: var(--muted);
+            font-size: 14px;
+            margin-bottom: 30px;
+            font-weight: 300;
+            position: relative;
+            z-index: 1;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+            position: relative;
+            z-index: 1;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            font-size: 13px;
+            margin-bottom: 6px;
+            color: var(--text-color);
+            letter-spacing: 0.3px;
+        }
+
+        .form-group label i {
+            color: var(--rose);
+            margin-right: 6px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            outline: none;
+            font-size: 14px;
+            background: var(--bg-color);
+            color: var(--text-color);
+            transition: border-color 0.3s, box-shadow 0.3s, background 0.3s;
+        }
+
+        .form-group input:focus {
+            border-color: var(--rose);
+            box-shadow: 0 0 0 4px rgba(238, 133, 135, 0.15);
+        }
+
+        .form-group input::placeholder {
+            color: var(--muted);
+            opacity: 0.6;
+        }
+
+        .login-btn {
+            background: var(--rose);
+            color: white;
+            border: none;
+            padding: 14px;
+            width: 100%;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(238, 133, 135, 0.3);
+        }
+
+        .login-btn:hover {
+            background: var(--rose-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(201, 108, 111, 0.4);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        #errorMsg {
+            color: #d63031;
+            font-size: 13px;
+            margin-top: 14px;
+            display: none;
+            position: relative;
+            z-index: 1;
+            background: #fde8e8;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+
+        /* ===== زر تبديل الوضع الليلي ===== */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 10px 16px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .theme-toggle:hover {
+            background: var(--rose-light);
+            border-color: var(--rose);
+        }
+
+        .theme-toggle i {
+            color: var(--rose);
+            font-size: 16px;
+        }
+
+        /* ===== تنسيق الروابط الإضافية ===== */
+        .login-footer {
+            margin-top: 20px;
+            font-size: 13px;
+            color: var(--muted);
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-footer a {
+            color: var(--rose);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .login-footer a:hover {
+            color: var(--rose-dark);
+            text-decoration: underline;
+        }
+
+        /* ===== استجابة ===== */
+        @media (max-width: 480px) {
+            .login-box {
+                padding: 35px 25px;
+            }
+            .login-box h2 {
+                font-size: 24px;
+            }
+            .login-box .icon {
+                width: 65px;
+                height: 65px;
+                line-height: 65px;
+                font-size: 32px;
+            }
+            .theme-toggle {
+                top: 12px;
+                right: 12px;
+                padding: 8px 14px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== زر تبديل الوضع الليلي ===== -->
+    <button class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i> Dark
+    </button>
+
+    <!-- ===== صندوق تسجيل الدخول ===== -->
+    <div class="login-box">
+        <div class="icon">
+            <i class="fas fa-user-shield"></i>
+        </div>
+        <h2>Admin Login</h2>
+        <p>Enter your admin credentials to manage the store.</p>
+
+        <form onsubmit="handleAdminLogin(event)">
+            <div class="form-group">
+                <label><i class="fas fa-envelope"></i> Email Address</label>
+                <input type="email" id="adminEmail" placeholder="admin@rose.com" value="admin@rose.com">
+            </div>
+
+            <div class="form-group">
+                <label><i class="fas fa-lock"></i> Password</label>
+                <input type="password" id="adminPassword" placeholder="••••••••" value="123456">
+            </div>
+
+            <button type="submit" class="login-btn">
+                <i class="fas fa-sign-in-alt"></i> Login
+            </button>
+
+            <div id="errorMsg">
+                <i class="fas fa-exclamation-circle"></i> Incorrect email or password!
+            </div>
+        </form>
+
+        <div class="login-footer">
+            <span>Demo: </span>
+            <a href="#" onclick="fillDemo()">admin@rose.com / 123456</a>
+        </div>
+    </div>
+
+    <script>
+        // ===== معالج تسجيل الدخول =====
+        function handleAdminLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('adminEmail').value.trim();
+            const pass = document.getElementById('adminPassword').value.trim();
+            const errorMsg = document.getElementById('errorMsg');
+
+            if (email === 'admin@rose.com' && pass === '123456') {
+                localStorage.setItem('adminLoggedIn', 'true');
+                // إضافة تأثير بسيط قبل الانتقال
+                const btn = document.querySelector('.login-btn');
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
+                btn.disabled = true;
+                setTimeout(() => {
+                    window.location.href = 'admin-dashboard.html';
+                }, 600);
+            } else {
+                errorMsg.style.display = 'block';
+                // اهتزاز بسيط للتنبيه
+                const box = document.querySelector('.login-box');
+                box.style.animation = 'shake 0.4s ease';
+                setTimeout(() => {
+                    box.style.animation = '';
+                }, 500);
+            }
+        }
+
+        // ===== تعبئة البيانات التجريبية =====
+        function fillDemo() {
+            document.getElementById('adminEmail').value = 'admin@rose.com';
+            document.getElementById('adminPassword').value = '123456';
+            document.getElementById('errorMsg').style.display = 'none';
+        }
+
+        // ===== إضافة تأثير الاهتزاز =====
+        const styleShake = document.createElement('style');
+        styleShake.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                20% { transform: translateX(-10px); }
+                40% { transform: translateX(10px); }
+                60% { transform: translateX(-6px); }
+                80% { transform: translateX(6px); }
+            }
+        `;
+        document.head.appendChild(styleShake);
+
+        // ===== الوضع الليلي =====
+        let darkMode = false;
+        document.getElementById('themeToggle').addEventListener('click', function() {
+            darkMode = !darkMode;
+            document.body.classList.toggle('dark-mode', darkMode);
+            this.innerHTML = darkMode ?
+                '<i class="fas fa-sun"></i> Light' :
+                '<i class="fas fa-moon"></i> Dark';
+        });
+
+        // ===== التحقق من حالة الدخول (منع الوصول المباشر) =====
+        // إذا كان المستخدم مسجل الدخول بالفعل، نعيده للوحة التحكم
+        if (localStorage.getItem('adminLoggedIn') === 'true' && window.location.pathname.includes('admin-login.html')) {
+            // يمكن تفعيل هذا السطر إذا أردنا منع الوصول لصفحة الدخول بعد تسجيل الدخول
+            // window.location.href = 'admin-dashboard.html';
+        }
+    </script>
+</body>
+</html>

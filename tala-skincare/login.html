@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Rose Skincare</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ==================================================
+           ROOT VARIABLES - استايل روز سكين كير الجديد
+        ================================================== */
+        :root {
+            --rose: #ee8587;
+            --rose-dark: #c96c6f;
+            --rose-light: #fff1ee;
+            --brown: #4b2d29;
+            --cream: #fffaf7;
+            --white: #ffffff;
+            --text: #322725;
+            --muted: #746764;
+            --border: #f3dfda;
+            --shadow: 0 18px 40px rgba(153, 84, 77, 0.14);
+            --bg-color: var(--cream);
+            --card-bg: var(--white);
+            --text-color: var(--text);
+            --border-color: var(--border);
+            --success: #27ae60;
+            --danger: #e74c3c;
+        }
+
+        /* ==================================================
+           DARK MODE
+        ================================================== */
+        body.dark-mode {
+            --bg-color: #1f1418;
+            --card-bg: #2d1e22;
+            --text-color: #f5e2e0;
+            --border-color: #5a3d3a;
+            --shadow: 0 18px 40px rgba(0,0,0,0.3);
+            --rose: #f09a9c;
+            --rose-dark: #d68083;
+            --rose-light: #3a2430;
+            --brown: #e8d5d0;
+            --cream: #1f1418;
+            --white: #2d1e22;
+            --text: #f5e2e0;
+            --muted: #b8a5a0;
+            --border: #5a3d3a;
+        }
+
+        body.dark-mode .top-header {
+            background: #2d1e22;
+            border-color: #5a3d3a;
+        }
+
+        body.dark-mode .login-content {
+            background: #2d1e22;
+            border-color: #5a3d3a;
+        }
+
+        body.dark-mode .form-group input {
+            background: #1f1418;
+            border-color: #5a3d3a;
+            color: #f5e2e0;
+        }
+
+        body.dark-mode .form-group input:focus {
+            border-color: #f09a9c;
+            box-shadow: 0 0 0 4px rgba(240, 154, 156, 0.12);
+        }
+
+        body.dark-mode .header-links a:hover {
+            background: #3a2430;
+            color: #f09a9c;
+        }
+
+        body.dark-mode .theme-btn,
+        body.dark-mode .lang-switch-btn {
+            border-color: #5a3d3a;
+            color: #f5e2e0;
+        }
+
+        body.dark-mode .theme-btn:hover,
+        body.dark-mode .lang-switch-btn:hover {
+            background: #3a2430;
+            border-color: #f09a9c;
+        }
+
+        body.dark-mode .login-content::before,
+        body.dark-mode .login-content::after {
+            background: #3a2430;
+            opacity: 0.15;
+        }
+
+        body.dark-mode .login-content .icon {
+            background: #3a2430;
+            color: #f09a9c;
+        }
+
+        /* ==================================================
+           BASE RESET
+        ================================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-color);
+            color: var(--text-color);
+            transition: background 0.3s, color 0.3s;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        /* ==================================================
+           HEADER
+        ================================================== */
+        .top-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--card-bg);
+            padding: 15px 30px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            margin-bottom: 30px;
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 40px);
+            max-width: 1000px;
+            z-index: 1000;
+            transition: background 0.3s, border-color 0.3s;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .top-header .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--brown);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: color 0.3s;
+        }
+
+        .top-header .logo i {
+            color: var(--rose);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .header-links {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .header-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            padding: 6px 12px;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+
+        .header-links a:hover {
+            background: var(--rose-light);
+            color: var(--rose-dark);
+        }
+
+        .header-links a i {
+            margin-right: 4px;
+        }
+
+        .theme-btn,
+        .lang-switch-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            padding: 6px 14px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 14px;
+            color: var(--text-color);
+            transition: all 0.3s;
+        }
+
+        .theme-btn:hover,
+        .lang-switch-btn:hover {
+            background: var(--rose-light);
+            border-color: var(--rose);
+        }
+
+        /* ==================================================
+           LOGIN CONTENT
+        ================================================== */
+        .login-content {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 50px 45px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            max-width: 450px;
+            width: 100%;
+            margin: 110px auto 0;
+            transition: background 0.3s, border-color 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* زخرفة خلفية */
+        .login-content::before {
+            content: '';
+            position: absolute;
+            top: -80px;
+            right: -80px;
+            width: 160px;
+            height: 160px;
+            background: var(--rose-light);
+            border-radius: 50%;
+            opacity: 0.3;
+            pointer-events: none;
+            transition: background 0.3s;
+        }
+
+        .login-content::after {
+            content: '';
+            position: absolute;
+            bottom: -60px;
+            left: -60px;
+            width: 120px;
+            height: 120px;
+            background: var(--rose-light);
+            border-radius: 50%;
+            opacity: 0.2;
+            pointer-events: none;
+            transition: background 0.3s;
+        }
+
+        .login-content .icon {
+            text-align: center;
+            font-size: 48px;
+            color: var(--rose);
+            margin-bottom: 10px;
+            background: var(--rose-light);
+            width: 80px;
+            height: 80px;
+            line-height: 80px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 100%;
+            max-width: 80px;
+            position: relative;
+            z-index: 1;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .login-content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            color: var(--brown);
+            text-align: center;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+            transition: color 0.3s;
+        }
+
+        .login-content h2 i {
+            color: var(--rose);
+            margin-right: 8px;
+        }
+
+        .login-content p {
+            text-align: center;
+            color: var(--muted);
+            margin-bottom: 30px;
+            font-size: 15px;
+            position: relative;
+            z-index: 1;
+            transition: color 0.3s;
+        }
+
+        /* ==================================================
+           FORM
+        ================================================== */
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--text-color);
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .form-group label i {
+            color: var(--rose);
+            margin-right: 6px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            outline: none;
+            font-size: 14px;
+            transition: all 0.3s;
+            background: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        .form-group input:focus {
+            border-color: var(--rose);
+            box-shadow: 0 0 0 4px rgba(238, 133, 135, 0.12);
+        }
+
+        .form-group input::placeholder {
+            color: var(--muted);
+            opacity: 0.6;
+        }
+
+        /* ==================================================
+           LOGIN BUTTON
+        ================================================== */
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--rose);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(238, 133, 135, 0.3);
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .login-btn:hover {
+            background: var(--rose-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(201, 108, 111, 0.4);
+        }
+
+        .login-btn i {
+            font-size: 18px;
+        }
+
+        /* ==================================================
+           FORM FOOTER
+        ================================================== */
+        .form-footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: var(--muted);
+            position: relative;
+            z-index: 1;
+            transition: color 0.3s;
+        }
+
+        .form-footer a {
+            color: var(--rose);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .form-footer a:hover {
+            color: var(--rose-dark);
+            text-decoration: underline;
+        }
+
+        .form-footer .divider {
+            margin: 0 8px;
+            color: var(--border-color);
+        }
+
+        /* ==================================================
+           RESPONSIVE
+        ================================================== */
+        @media (max-width: 768px) {
+            .top-header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 12px;
+                padding: 15px 20px;
+                width: calc(100% - 20px);
+            }
+
+            .top-header .logo {
+                justify-content: center;
+                font-size: 24px;
+            }
+
+            .header-actions {
+                justify-content: center;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .header-links {
+                justify-content: center;
+            }
+
+            .login-content {
+                padding: 35px 25px;
+                margin-top: 170px;
+            }
+
+            .login-content h2 {
+                font-size: 26px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+
+            .top-header {
+                padding: 12px 15px;
+            }
+
+            .header-links a {
+                font-size: 12px;
+                padding: 4px 8px;
+            }
+
+            .login-content {
+                padding: 30px 20px;
+                margin-top: 190px;
+            }
+
+            .login-content h2 {
+                font-size: 22px;
+            }
+
+            .login-content .icon {
+                width: 60px;
+                height: 60px;
+                line-height: 60px;
+                font-size: 30px;
+                max-width: 60px;
+            }
+        }
+
+        /* ==================================================
+           RTL SUPPORT
+        ================================================== */
+        body.rtl {
+            direction: rtl;
+        }
+
+        body.rtl .header-links a i {
+            margin-right: 0;
+            margin-left: 4px;
+        }
+
+        body.rtl .login-content h2 i {
+            margin-right: 0;
+            margin-left: 8px;
+        }
+
+        body.rtl .form-group label i {
+            margin-right: 0;
+            margin-left: 6px;
+        }
+    </style>
+</head>
+<body>
+    <header class="top-header">
+        <div class="logo"><i class="fas fa-seedling"></i> ROSE</div>
+        <div class="header-actions">
+            <div class="header-links">
+                <a href="index.html" id="linkHome">Home</a>
+                <a href="products.html" id="linkProducts">Products</a>
+                <a href="offers.html" id="linkOffers" style="color: #e74c3c;"><i class="fas fa-tags"></i> Offers</a>
+                <a href="wishlist.html" id="linkWishlist"><i class="fas fa-heart"></i> Wishlist</a>
+                <a href="cart.html" id="linkCart"><i class="fas fa-shopping-cart"></i> Cart</a>
+                <a href="login.html" id="linkLogin"><i class="fas fa-user"></i> Login</a>
+            </div>
+            <button class="lang-switch-btn" onclick="toggleLang()" id="langBtn">🌐</button>
+            <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
+        </div>
+    </header>
+
+    <div class="login-content">
+        <div class="icon">
+            <i class="fas fa-user-circle"></i>
+        </div>
+        <h2 id="loginTitle">Welcome Back</h2>
+        <p id="loginSub">Login to your account to manage your orders.</p>
+        <form onsubmit="handleLogin(event)">
+            <div class="form-group">
+                <label id="labelEmail"><i class="fas fa-envelope"></i> Email Address</label>
+                <input type="email" id="inputEmail" placeholder="you@example.com" required>
+            </div>
+            <div class="form-group">
+                <label id="labelPass"><i class="fas fa-lock"></i> Password</label>
+                <input type="password" id="inputPass" placeholder="********" required>
+            </div>
+            <button type="submit" class="login-btn" id="loginBtn">
+                <i class="fas fa-sign-in-alt"></i> Login
+            </button>
+            <div class="form-footer">
+                <span id="noAcc">Don't have an account?</span>
+                <span class="divider">|</span>
+                <a href="signup.html" id="signUpLink">Sign Up</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // ===== دالة تسجيل الدخول الذكية =====
+        function handleLogin(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('inputEmail').value;
+            const password = document.getElementById('inputPass').value;
+            
+            if (email && password) {
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('userEmail', email);
+                
+                alert('Login Successful!');
+                
+                const redirectUrl = localStorage.getItem('redirectAfterLogin');
+                if (redirectUrl && redirectUrl !== 'login.html') {
+                    window.location.href = redirectUrl;
+                } else {
+                    window.location.href = 'index.html';
+                }
+            } else {
+                alert('Please enter a valid email and password.');
+            }
+        }
+
+        // ===== تحميل الصفحة =====
+        window.onload = function() {
+            if (localStorage.getItem('theme') === 'dark') {
+                document.body.classList.add('dark-mode');
+                document.getElementById('themeBtn').innerHTML = '☀️';
+            }
+            
+            const currentUrl = window.location.href;
+            if (!currentUrl.includes('login.html') && !currentUrl.includes('signup.html')) {
+                localStorage.setItem('redirectAfterLogin', currentUrl);
+            }
+        };
+
+        // ===== الترجمة =====
+        const translations = {
+            en: {
+                home: "Home", products: "Products", offers: "Offers", wishlist: "Wishlist", cart: "Cart", login: "Login",
+                title: "Welcome Back", sub: "Login to your account to manage your orders.",
+                email: "Email Address", pass: "Password", btn: "Login", noAcc: "Don't have an account?", signUp: "Sign Up",
+                langBtn: "🌐"
+            },
+            ar: {
+                home: "الرئيسية", products: "المنتجات", offers: "خصومات", wishlist: "المفضلة", cart: "السلة", login: "دخول",
+                title: "مرحباً بعودتك", sub: "سجل الدخول لحسابك لإدارة طلباتك.",
+                email: "البريد الإلكتروني", pass: "كلمة المرور", btn: "تسجيل الدخول", noAcc: "ليس لديك حساب؟", signUp: "إنشاء حساب",
+                langBtn: "🌐"
+            }
+        };
+        let currentLang = 'en';
+
+        function toggleLang() {
+            currentLang = currentLang === 'en' ? 'ar' : 'en';
+            const t = translations[currentLang];
+            document.getElementById('linkHome').innerText = t.home;
+            document.getElementById('linkProducts').innerText = t.products;
+            document.getElementById('linkOffers').innerHTML = `<i class="fas fa-tags"></i> ${t.offers}`;
+            document.getElementById('linkWishlist').innerHTML = `<i class="fas fa-heart"></i> ${t.wishlist}`;
+            document.getElementById('linkCart').innerHTML = `<i class="fas fa-shopping-cart"></i> ${t.cart}`;
+            document.getElementById('linkLogin').innerHTML = `<i class="fas fa-user"></i> ${t.login}`;
+            document.getElementById('loginTitle').innerText = t.title;
+            document.getElementById('loginSub').innerText = t.sub;
+            document.getElementById('labelEmail').innerHTML = `<i class="fas fa-envelope"></i> ${t.email}`;
+            document.getElementById('labelPass').innerHTML = `<i class="fas fa-lock"></i> ${t.pass}`;
+            document.getElementById('loginBtn').innerHTML = `<i class="fas fa-sign-in-alt"></i> ${t.btn}`;
+            document.getElementById('noAcc').innerText = t.noAcc;
+            document.getElementById('signUpLink').innerText = t.signUp;
+            document.getElementById('langBtn').innerText = t.langBtn;
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const btn = document.getElementById('themeBtn');
+            if (document.body.classList.contains('dark-mode')) {
+                btn.innerHTML = '☀️';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                btn.innerHTML = '🌙';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+    </script>
+</body>
+</html>

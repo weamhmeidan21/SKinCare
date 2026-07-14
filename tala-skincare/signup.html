@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Rose Skincare</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ===== متغيرات الورد ===== */
+        :root {
+            --rose: #ee8587;
+            --rose-dark: #c96c6f;
+            --rose-light: #fff1ee;
+            --brown: #4b2d29;
+            --cream: #fffaf7;
+            --white: #ffffff;
+            --text: #322725;
+            --muted: #746764;
+            --border: #f3dfda;
+            --shadow: 0 18px 40px rgba(153, 84, 77, 0.14);
+            
+            --bg-color: var(--cream);
+            --card-bg: var(--white);
+            --text-color: var(--text);
+            --primary: var(--rose);
+            --primary-dark: var(--rose-dark);
+            --primary-light: var(--rose-light);
+            --border-color: var(--border);
+        }
+
+        /* ===== الوضع الليلي ===== */
+        body.dark-mode {
+            --bg-color: #1f1418;
+            --card-bg: #2d1e22;
+            --text-color: #f5e2e0;
+            --border-color: #5a3d3a;
+            --shadow: 0 18px 40px rgba(0,0,0,0.3);
+            --primary: #f09a9c;
+            --primary-dark: #d68083;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: var(--bg-color);
+            color: var(--text-color);
+            transition: background 0.3s, color 0.3s;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        /* ===== الهيدر ===== */
+        .top-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--card-bg);
+            padding: 15px 30px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            margin-bottom: 30px;
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 40px);
+            max-width: 1000px;
+            z-index: 1000;
+            transition: background 0.3s, border-color 0.3s;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .top-header .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--brown);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .top-header .logo i {
+            color: var(--rose);
+            font-size: 30px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .header-links {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .header-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            padding: 6px 12px;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+
+        .header-links a:hover {
+            background: var(--rose-light);
+            color: var(--rose-dark);
+        }
+
+        .header-links a i {
+            margin-right: 4px;
+        }
+
+        .header-links a .fa-heart {
+            color: var(--rose);
+        }
+
+        .header-links a .fa-shopping-cart {
+            color: var(--rose-dark);
+        }
+
+        .header-actions .theme-btn,
+        .header-actions .lang-switch-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            padding: 6px 14px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 14px;
+            color: var(--text-color);
+            transition: all 0.3s;
+        }
+
+        .header-actions .theme-btn:hover,
+        .header-actions .lang-switch-btn:hover {
+            background: var(--rose-light);
+            border-color: var(--rose);
+        }
+
+        /* ===== محتوى إنشاء الحساب ===== */
+        .signup-content {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 50px 45px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            max-width: 450px;
+            width: 100%;
+            margin: 110px auto 0;
+            transition: background 0.3s, border-color 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* ===== زخرفة خلفية ===== */
+        .signup-content::before {
+            content: '';
+            position: absolute;
+            top: -80px;
+            right: -80px;
+            width: 160px;
+            height: 160px;
+            background: var(--rose-light);
+            border-radius: 50%;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .signup-content::after {
+            content: '';
+            position: absolute;
+            bottom: -60px;
+            left: -60px;
+            width: 120px;
+            height: 120px;
+            background: var(--rose-light);
+            border-radius: 50%;
+            opacity: 0.2;
+            pointer-events: none;
+        }
+
+        .signup-content .icon {
+            text-align: center;
+            font-size: 48px;
+            color: var(--rose);
+            margin-bottom: 10px;
+            background: var(--rose-light);
+            width: 80px;
+            height: 80px;
+            line-height: 80px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 100%;
+            max-width: 80px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .signup-content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            color: var(--brown);
+            text-align: center;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .signup-content h2 i {
+            color: var(--rose);
+            margin-right: 8px;
+        }
+
+        .signup-content p {
+            text-align: center;
+            color: var(--muted);
+            margin-bottom: 30px;
+            font-size: 14px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ===== حقول النموذج ===== */
+        .form-group {
+            margin-bottom: 18px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 6px;
+            color: var(--text-color);
+            font-size: 13px;
+        }
+
+        .form-group label i {
+            color: var(--rose);
+            margin-right: 6px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 13px 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            outline: none;
+            font-size: 14px;
+            transition: all 0.3s;
+            background: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        .form-group input:focus {
+            border-color: var(--rose);
+            box-shadow: 0 0 0 4px rgba(238, 133, 135, 0.12);
+        }
+
+        .form-group input::placeholder {
+            color: var(--muted);
+            opacity: 0.6;
+        }
+
+        /* ===== زر إنشاء الحساب ===== */
+        .signup-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--rose);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(238, 133, 135, 0.3);
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .signup-btn:hover {
+            background: var(--rose-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(201, 108, 111, 0.4);
+        }
+
+        .signup-btn i {
+            font-size: 18px;
+        }
+
+        /* ===== تذييل النموذج ===== */
+        .form-footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: var(--muted);
+            position: relative;
+            z-index: 1;
+        }
+
+        .form-footer a {
+            color: var(--rose);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .form-footer a:hover {
+            color: var(--rose-dark);
+            text-decoration: underline;
+        }
+
+        .form-footer .divider {
+            margin: 0 8px;
+            color: var(--border-color);
+        }
+
+        /* ===== استجابة ===== */
+        @media (max-width: 768px) {
+            .top-header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 12px;
+                padding: 15px 20px;
+                width: calc(100% - 20px);
+            }
+
+            .header-actions {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .header-links {
+                justify-content: center;
+            }
+
+            .signup-content {
+                padding: 35px 25px;
+                margin-top: 170px;
+            }
+
+            .signup-content h2 {
+                font-size: 26px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .top-header .logo {
+                font-size: 22px;
+            }
+
+            .header-links a {
+                font-size: 12px;
+                padding: 4px 8px;
+            }
+
+            .signup-content {
+                padding: 30px 20px;
+                margin-top: 190px;
+            }
+
+            .signup-content h2 {
+                font-size: 22px;
+            }
+
+            .signup-content .icon {
+                width: 60px;
+                height: 60px;
+                line-height: 60px;
+                font-size: 30px;
+                max-width: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== الهيدر ===== -->
+    <header class="top-header">
+        <div class="logo">
+            <i class="fas fa-leaf"></i> ROSE
+        </div>
+        <div class="header-actions">
+            <div class="header-links">
+                <a href="index.html" id="linkHome"><i class="fas fa-home"></i> Home</a>
+                <a href="products.html" id="linkProducts"><i class="fas fa-box"></i> Products</a>
+                <a href="offers.html" id="linkOffers" style="color: var(--rose);"><i class="fas fa-tags"></i> Offers</a>
+                <a href="wishlist.html" id="linkWishlist"><i class="fas fa-heart"></i> Wishlist</a>
+                <a href="cart.html" id="linkCart"><i class="fas fa-shopping-cart"></i> Cart</a>
+                <a href="login.html" id="linkLogin"><i class="fas fa-user"></i> Login</a>
+            </div>
+            <button class="lang-switch-btn" onclick="toggleLang()" id="langBtn">🌐</button>
+            <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
+        </div>
+    </header>
+
+    <!-- ===== نموذج إنشاء الحساب ===== -->
+    <div class="signup-content">
+        <div class="icon">
+            <i class="fas fa-user-plus"></i>
+        </div>
+        <h2><i class="fas fa-rose"></i> <span id="signupTitle">Create Account</span></h2>
+        <p id="signupSub">Join us and start your beauty journey.</p>
+        
+        <form onsubmit="handleSignup(event)">
+            <div class="form-group">
+                <label id="labelName"><i class="fas fa-user"></i> Full Name</label>
+                <input type="text" id="inputName"  required>
+            </div>
+            <div class="form-group">
+                <label id="labelEmail"><i class="fas fa-envelope"></i> Email Address</label>
+                <input type="email" id="inputEmail" placeholder="****@gmail.com" required>
+            </div>
+            <div class="form-group">
+                <label id="labelPass"><i class="fas fa-lock"></i> Password</label>
+                <input type="password" id="inputPass" placeholder="••••••••" required minlength="6">
+            </div>
+            <div class="form-group">
+                <label id="labelConfirm"><i class="fas fa-check-circle"></i> Confirm Password</label>
+                <input type="password" id="inputConfirm" placeholder="••••••••" required minlength="6">
+            </div>
+            
+            <button type="submit" class="signup-btn" id="signupBtn">
+                <i class="fas fa-user-plus"></i> Sign Up
+            </button>
+            
+            <div class="form-footer">
+                <span id="haveAcc">Already have an account?</span>
+                <span class="divider">|</span>
+                <a href="login.html" id="loginLink">Login</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // ===== معالج إنشاء الحساب =====
+        function handleSignup(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('inputName').value.trim();
+            const email = document.getElementById('inputEmail').value.trim();
+            const password = document.getElementById('inputPass').value;
+            const confirm = document.getElementById('inputConfirm').value;
+
+            // التحقق من صحة البيانات
+            if (!name || !email || !password || !confirm) {
+                alert('⚠️ Please fill in all fields.');
+                return;
+            }
+
+            if (password !== confirm) {
+                alert('⚠️ Passwords do not match!');
+                return;
+            }
+
+            if (password.length < 6) {
+                alert('⚠️ Password must be at least 6 characters long.');
+                return;
+            }
+
+            // حفظ بيانات المستخدم (محاكاة)
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            
+            // التحقق من عدم وجود البريد الإلكتروني مسبقاً
+            if (users.some(u => u.email === email)) {
+                alert('⚠️ This email is already registered. Please login.');
+                return;
+            }
+
+            // إضافة المستخدم الجديد
+            users.push({
+                name: name,
+                email: email,
+                password: password,
+                createdAt: new Date().toISOString()
+            });
+            
+            localStorage.setItem('users', JSON.stringify(users));
+            
+            // إظهار رسالة نجاح مع تأثير
+            const btn = document.getElementById('signupBtn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating account...';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                alert('✅ Account created successfully! You can now login.');
+                window.location.href = 'login.html';
+            }, 800);
+        }
+
+        // ===== الترجمة =====
+        const translations = {
+            en: {
+                home: "Home", products: "Products", offers: "Offers", wishlist: "Wishlist",
+                cart: "Cart", login: "Login",
+                title: "Create Account", sub: "Join us and start your beauty journey.",
+                name: "Full Name", email: "Email Address", pass: "Password",
+                confirm: "Confirm Password", btn: "Sign Up",
+                have: "Already have an account?", link: "Login", langBtn: "🌐"
+            },
+            ar: {
+                home: "الرئيسية", products: "المنتجات", offers: "خصومات", wishlist: "المفضلة",
+                cart: "السلة", login: "دخول",
+                title: "إنشاء حساب", sub: "انضم إلينا وابدأ رحلة جمالك.",
+                name: "الاسم الكامل", email: "البريد الإلكتروني", pass: "كلمة المرور",
+                confirm: "تأكيد كلمة المرور", btn: "إنشاء حساب",
+                have: "لديك حساب بالفعل؟", link: "تسجيل الدخول", langBtn: "🌐"
+            }
+        };
+        let currentLang = 'en';
+
+        function toggleLang() {
+            currentLang = currentLang === 'en' ? 'ar' : 'en';
+            const t = translations[currentLang];
+            
+            document.getElementById('linkHome').innerHTML = `<i class="fas fa-home"></i> ${t.home}`;
+            document.getElementById('linkProducts').innerHTML = `<i class="fas fa-box"></i> ${t.products}`;
+            document.getElementById('linkOffers').innerHTML = `<i class="fas fa-tags"></i> ${t.offers}`;
+            document.getElementById('linkWishlist').innerHTML = `<i class="fas fa-heart"></i> ${t.wishlist}`;
+            document.getElementById('linkCart').innerHTML = `<i class="fas fa-shopping-cart"></i> ${t.cart}`;
+            document.getElementById('linkLogin').innerHTML = `<i class="fas fa-user"></i> ${t.login}`;
+            
+            document.getElementById('signupTitle').innerHTML = `<i class="fas fa-rose"></i> ${t.title}`;
+            document.getElementById('signupSub').innerText = t.sub;
+            document.getElementById('labelName').innerHTML = `<i class="fas fa-user"></i> ${t.name}`;
+            document.getElementById('labelEmail').innerHTML = `<i class="fas fa-envelope"></i> ${t.email}`;
+            document.getElementById('labelPass').innerHTML = `<i class="fas fa-lock"></i> ${t.pass}`;
+            document.getElementById('labelConfirm').innerHTML = `<i class="fas fa-check-circle"></i> ${t.confirm}`;
+            document.getElementById('signupBtn').innerHTML = `<i class="fas fa-user-plus"></i> ${t.btn}`;
+            document.getElementById('haveAcc').innerText = t.have;
+            document.getElementById('loginLink').innerText = t.link;
+            document.getElementById('langBtn').innerText = t.langBtn;
+        }
+
+        // ===== الدارك مود =====
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const btn = document.getElementById('themeBtn');
+            if (document.body.classList.contains('dark-mode')) {
+                btn.innerHTML = '☀️';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                btn.innerHTML = '🌙';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // ===== التحميل الأولي =====
+        window.onload = function() {
+            if (localStorage.getItem('theme') === 'dark') {
+                document.body.classList.add('dark-mode');
+                document.getElementById('themeBtn').innerHTML = '☀️';
+            }
+        };
+    </script>
+</body>
+</html>

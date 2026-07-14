@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Rose Skincare</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ==================================================
+           ROOT VARIABLES - استايل روز سكين كير الجديد
+        ================================================== */
+        :root {
+            --rose: #ee8587;
+            --rose-dark: #c96c6f;
+            --rose-light: #fff1ee;
+            --brown: #4b2d29;
+            --cream: #fffaf7;
+            --white: #ffffff;
+            --text: #322725;
+            --muted: #746764;
+            --border: #f3dfda;
+            --shadow: 0 18px 40px rgba(153, 84, 77, 0.14);
+            --bg-color: var(--cream);
+            --card-bg: var(--white);
+            --text-color: var(--text);
+            --border-color: var(--border);
+            --success: #27ae60;
+            --danger: #e74c3c;
+        }
+
+        /* ==================================================
+           DARK MODE
+        ================================================== */
+        body.dark-mode {
+            --bg-color: #1f1418;
+            --card-bg: #2d1e22;
+            --text-color: #f5e2e0;
+            --border-color: #5a3d3a;
+            --shadow: 0 18px 40px rgba(0,0,0,0.3);
+            --rose: #f09a9c;
+            --rose-dark: #d68083;
+            --rose-light: #3a2430;
+            --brown: #e8d5d0;
+            --cream: #1f1418;
+            --white: #2d1e22;
+            --text: #f5e2e0;
+            --muted: #b8a5a0;
+            --border: #5a3d3a;
+        }
+
+        body.dark-mode .top-header {
+            background: #2d1e22;
+            border-color: #5a3d3a;
+        }
+
+        body.dark-mode .box {
+            background: #2d1e22;
+            border-color: #5a3d3a;
+        }
+
+        body.dark-mode .form-group input {
+            background: #1f1418;
+            border-color: #5a3d3a;
+            color: #f5e2e0;
+        }
+
+        body.dark-mode .form-group input:focus {
+            border-color: #f09a9c;
+            box-shadow: 0 0 0 4px rgba(240, 154, 156, 0.12);
+        }
+
+        body.dark-mode .payment-option {
+            border-color: #5a3d3a;
+            background: #1f1418;
+        }
+
+        body.dark-mode .payment-option.active {
+            background: #3a2430;
+            border-color: #f09a9c;
+        }
+
+        body.dark-mode .delivery-time-box {
+            background: #3a2430;
+        }
+
+        body.dark-mode .summary-row {
+            border-color: #5a3d3a;
+        }
+
+        body.dark-mode .summary-row.total {
+            border-color: #f09a9c;
+        }
+
+        body.dark-mode .coupon-input-group input {
+            background: #1f1418;
+            border-color: #5a3d3a;
+            color: #f5e2e0;
+        }
+
+        body.dark-mode .coupon-input-group input:focus {
+            border-color: #f09a9c;
+            box-shadow: 0 0 0 4px rgba(240, 154, 156, 0.12);
+        }
+
+        body.dark-mode .coupon-input-group button {
+            background: #3a2430;
+            border-color: #f09a9c;
+            color: #f09a9c;
+        }
+
+        body.dark-mode .coupon-input-group button:hover {
+            background: #f09a9c;
+            color: #1f1418;
+        }
+
+        /* ==================================================
+           BASE RESET
+        ================================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-color);
+            color: var(--text-color);
+            transition: background 0.3s, color 0.3s;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        /* ==================================================
+           HEADER
+        ================================================== */
+        .top-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--card-bg);
+            padding: 15px 30px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            margin-bottom: 30px;
+            transition: background 0.3s, border-color 0.3s;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .top-header .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--brown);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: color 0.3s;
+        }
+
+        .top-header .logo i {
+            color: var(--rose);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .header-links {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .header-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            padding: 6px 12px;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+
+        .header-links a:hover {
+            background: var(--rose-light);
+            color: var(--rose-dark);
+        }
+
+        .header-links a i {
+            margin-right: 4px;
+        }
+
+        .theme-btn,
+        .lang-switch-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            padding: 6px 14px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 14px;
+            color: var(--text-color);
+            transition: all 0.3s;
+        }
+
+        .theme-btn:hover,
+        .lang-switch-btn:hover {
+            background: var(--rose-light);
+            border-color: var(--rose);
+        }
+
+        /* ==================================================
+           CHECKOUT LAYOUT
+        ================================================== */
+        .checkout-layout {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 30px;
+        }
+
+        .box {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            transition: background 0.3s, border-color 0.3s;
+        }
+
+        .box h2 {
+            font-family: 'Playfair Display', serif;
+            color: var(--brown);
+            margin-bottom: 25px;
+            font-size: 26px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: color 0.3s;
+        }
+
+        .box h2 i {
+            color: var(--rose);
+        }
+
+        .box h3 {
+            color: var(--brown);
+            margin-bottom: 15px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: color 0.3s;
+        }
+
+        .box h3 i {
+            color: var(--rose);
+        }
+
+        /* ==================================================
+           FORM
+        ================================================== */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 6px;
+            color: var(--text-color);
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .form-group label .required {
+            color: var(--rose);
+            margin-left: 3px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            outline: none;
+            font-size: 14px;
+            transition: all 0.3s;
+            background: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        .form-group input:focus {
+            border-color: var(--rose);
+            box-shadow: 0 0 0 4px rgba(238, 133, 135, 0.12);
+        }
+
+        .form-group input::placeholder {
+            color: var(--muted);
+            opacity: 0.6;
+        }
+
+        /* ==================================================
+           DELIVERY TIME
+        ================================================== */
+        .delivery-time-box {
+            background: var(--rose-light);
+            border-radius: 12px;
+            padding: 15px 20px;
+            margin-top: 15px;
+            border-left: 4px solid var(--rose);
+            transition: background 0.3s;
+        }
+
+        .delivery-time-box p {
+            font-size: 14px;
+            color: var(--text-color);
+        }
+
+        .delivery-time-box strong {
+            color: var(--rose-dark);
+        }
+
+        /* ==================================================
+           MAP
+        ================================================== */
+        .map-container {
+            width: 100%;
+            height: 250px;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-top: 10px;
+            border: 1px solid var(--border-color);
+            transition: border-color 0.3s;
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* ==================================================
+           PAYMENT METHODS
+        ================================================== */
+        .payment-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .payment-option {
+            border: 2px solid var(--border-color);
+            padding: 15px 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s;
+            background: var(--bg-color);
+        }
+
+        .payment-option:hover {
+            border-color: var(--rose);
+        }
+
+        .payment-option.active {
+            border-color: var(--rose);
+            background: var(--rose-light);
+        }
+
+        .payment-option input[type="radio"] {
+            accent-color: var(--rose);
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .payment-option label {
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .payment-option i {
+            font-size: 22px;
+            color: var(--rose-dark);
+            width: 30px;
+            text-align: center;
+        }
+
+        /* ==================================================
+           PLACE ORDER BUTTON
+        ================================================== */
+        .btn-place-order {
+            width: 100%;
+            padding: 16px;
+            background: var(--rose);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            box-shadow: 0 4px 15px rgba(238, 133, 135, 0.3);
+        }
+
+        .btn-place-order:hover {
+            background: var(--rose-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(201, 108, 111, 0.4);
+        }
+
+        .btn-place-order:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* ==================================================
+           SUMMARY
+        ================================================== */
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 15px;
+            color: var(--text-color);
+            transition: border-color 0.3s;
+        }
+
+        .summary-row:last-child {
+            border-bottom: none;
+        }
+
+        .summary-row.total {
+            border-top: 2px solid var(--rose);
+            padding-top: 15px;
+            margin-top: 10px;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--brown);
+        }
+
+        .summary-row.total .price {
+            color: var(--rose);
+        }
+
+        .summary-empty {
+            text-align: center;
+            padding: 30px 0;
+            color: var(--muted);
+        }
+
+        .summary-empty i {
+            font-size: 48px;
+            margin-bottom: 15px;
+            display: block;
+            color: var(--border-color);
+        }
+
+        /* ==================================================
+           RESPONSIVE
+        ================================================== */
+        @media (max-width: 992px) {
+            .checkout-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .top-header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 12px;
+                padding: 15px 20px;
+            }
+
+            .top-header .logo {
+                justify-content: center;
+                font-size: 24px;
+            }
+
+            .header-actions {
+                justify-content: center;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .header-links {
+                justify-content: center;
+            }
+
+            .box {
+                padding: 25px 20px;
+            }
+
+            .box h2 {
+                font-size: 22px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+
+            .top-header {
+                padding: 12px 15px;
+            }
+
+            .header-links a {
+                font-size: 12px;
+                padding: 4px 8px;
+            }
+
+            .box {
+                padding: 20px 15px;
+            }
+
+            .box h2 {
+                font-size: 20px;
+            }
+
+            .summary-row.total {
+                font-size: 17px;
+            }
+
+            .btn-place-order {
+                font-size: 16px;
+                padding: 14px;
+            }
+
+            .payment-option {
+                padding: 12px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="top-header">
+            <div class="logo"><i class="fas fa-seedling"></i> ROSE</div>
+            <div class="header-actions">
+                <div class="header-links">
+                    <a href="index.html" id="linkHome"><i class="fas fa-home"></i> Home</a>
+                    <a href="products.html" id="linkProducts"><i class="fas fa-box"></i> Products</a>
+                    <a href="offers.html" id="linkOffers" style="color: var(--rose);"><i class="fas fa-tags"></i> Offers</a>
+                    <a href="wishlist.html" id="linkWishlist"><i class="fas fa-heart"></i> Wishlist</a>
+                    <a href="cart.html" id="linkCart"><i class="fas fa-shopping-cart"></i> Cart</a>
+                    <a href="login.html" id="linkLogin"><i class="fas fa-user"></i> Login</a>
+                </div>
+                <button class="lang-switch-btn" onclick="toggleLang()" id="langBtn">🌐</button>
+                <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
+            </div>
+        </header>
+
+        <div class="checkout-layout">
+            <!-- القسم الأيسر: تفاصيل العميل -->
+            <div class="box" style="flex: 1.5;">
+                <h2><i class="fas fa-address-card"></i> <span id="titleCheckout">Complete Your Order</span></h2>
+                <form onsubmit="handlePlaceOrder(event)">
+                    <div class="form-group">
+                        <label id="labelName">Full Name <span class="required">*</span></label>
+                        <input type="text" id="inputName" required>
+                    </div>
+                    <div class="form-group">
+                        <label id="labelEmail">Email Address <span class="required">*</span></label>
+                        <input type="email" id="inputEmail" placeholder="****@gmail.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label id="labelPhone">Phone Number <span class="required">*</span></label>
+                        <input type="tel" id="inputPhone" placeholder="+970 59..." required>
+                    </div>
+                    <div class="form-group">
+                        <label id="labelAddress">Shipping Address <span class="required">*</span></label>
+                        <input type="text" id="inputAddress" required>
+                    </div>
+                    
+                    <div class="delivery-time-box">
+                        <p id="deliveryText"><strong><i class="fas fa-truck"></i> Estimated Delivery:</strong> 2-3 Business Days</p>
+                    </div>
+
+                    <h3 style="margin-top: 25px;"><i class="fas fa-map-marker-alt"></i> <span id="mapTitle">Our Location (Ramallah, Palestine)</span></h3>
+                    <div class="map-container">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d27166.098312100696!2d35.2021523!3d31.9037616!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x151d30d37d4b2e35%3A0x3c10c29fb02cd8d2!2sRamallah!5e0!3m2!1sen!2s!4v1700000000000" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                    
+                    <h3 style="margin-top: 25px;"><i class="fas fa-credit-card"></i> <span id="paymentTitle">Payment Method</span></h3>
+                    <div class="payment-methods">
+                        <label class="payment-option active" onclick="selectPayment(this)">
+                            <input type="radio" name="payment" value="card" checked> 
+                            <i class="fas fa-credit-card"></i> <span id="payCard">Credit / Debit Card</span>
+                        </label>
+                        <label class="payment-option" onclick="selectPayment(this)">
+                            <input type="radio" name="payment" value="cash"> 
+                            <i class="fas fa-money-bill-wave"></i> <span id="payCash">Cash on Delivery</span>
+                        </label>
+                        <label class="payment-option" onclick="selectPayment(this)">
+                            <input type="radio" name="payment" value="paypal"> 
+                            <i class="fab fa-paypal"></i> <span id="payPaypal">PayPal</span>
+                        </label>
+                    </div>
+                    <button type="submit" class="btn-place-order" id="btnPlaceOrder">
+                        <i class="fas fa-lock"></i> <span id="placeOrderText">Place Order</span>
+                    </button>
+                </form>
+            </div>
+
+            <!-- القسم الأيمن: ملخص الطلب (ديناميكي من السلة) -->
+            <div class="box" style="flex: 1;">
+                <h2><i class="fas fa-shopping-bag"></i> <span id="summaryTitle">Order Summary</span></h2>
+                <div id="summaryItems">
+                    <!-- سيتم تعبئة المنتجات هنا ديناميكياً -->
+                </div>
+                <div class="summary-row">
+                    <span id="subTotalLabel">Subtotal</span>
+                    <span id="subTotalValue">₪0.00</span>
+                </div>
+                <div class="summary-row">
+                    <span id="shippingLabel">Shipping</span>
+                    <span id="shippingCost">Free</span>
+                </div>
+                <div class="summary-row total">
+                    <span id="totalLabel">Total</span>
+                    <span class="price" id="totalValue">₪0.00</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================================
+        // قراءة المنتجات من السلة وتحديث الملخص
+        // ============================================================
+        function loadCheckoutSummary() {
+            const cartItems = JSON.parse(localStorage.getItem('shoppingCart')) || [];
+            const container = document.getElementById('summaryItems');
+            container.innerHTML = '';
+            
+            if (cartItems.length === 0) {
+                container.innerHTML = '<p style="color:var(--muted); text-align:center; padding:20px 0;">Your cart is empty.</p>';
+                document.getElementById('subTotalValue').innerText = '₪0.00';
+                document.getElementById('totalValue').innerText = '₪0.00';
+                return;
+            }
+
+            let subtotal = 0;
+            cartItems.forEach(item => {
+                const total = item.price * item.qty;
+                subtotal += total;
+                const div = document.createElement('div');
+                div.className = 'summary-row';
+                div.innerHTML = `
+                    <span>${item.name} (x${item.qty})</span>
+                    <span style="color: var(--rose);">₪${total.toFixed(2)}</span>
+                `;
+                container.appendChild(div);
+            });
+
+            document.getElementById('subTotalValue').innerText = '₪' + subtotal.toFixed(2);
+            document.getElementById('totalValue').innerText = '₪' + subtotal.toFixed(2);
+        }
+
+        // ============================================================
+        // دالة إتمام الطلب (حفظ الطلب للأدمن)
+        // ============================================================
+        function handlePlaceOrder(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('inputName').value.trim();
+            const email = document.getElementById('inputEmail').value.trim();
+            const phone = document.getElementById('inputPhone').value.trim();
+            const address = document.getElementById('inputAddress').value.trim();
+            const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
+
+            if (!name || !email || !phone || !address) {
+                alert("Please fill in all required fields.");
+                return;
+            }
+
+            const cartItems = JSON.parse(localStorage.getItem('shoppingCart')) || [];
+            if (cartItems.length === 0) {
+                alert("Your cart is empty.");
+                return;
+            }
+
+            let total = 0;
+            cartItems.forEach(item => {
+                total += item.price * item.qty;
+            });
+
+            // إنشاء كائن الطلب
+            const newOrder = {
+                id: "#" + Math.floor(Math.random() * 90000 + 10000),
+                customer: name,
+                email: email,
+                phone: phone,
+                address: address,
+                items: cartItems,
+                total: total.toFixed(2) + ' ₪',
+                status: "pending",
+                payment: paymentMethod,
+                date: new Date().toLocaleString()
+            };
+
+            // قراءة الطلبات السابقة
+            let allOrders = JSON.parse(localStorage.getItem('adminOrders')) || [];
+            allOrders.unshift(newOrder);
+            localStorage.setItem('adminOrders', JSON.stringify(allOrders));
+
+            // إفراغ السلة بعد الشراء
+            localStorage.removeItem('shoppingCart');
+
+            alert("Order placed successfully!");
+            
+            // العودة إلى صفحة المنتجات
+            window.location.href = 'products.html';
+        }
+
+        // ===== وظائف الدفع =====
+        function selectPayment(element) {
+            document.querySelectorAll('.payment-option').forEach(el => el.classList.remove('active'));
+            element.classList.add('active');
+            element.querySelector('input[type="radio"]').checked = true;
+        }
+
+        // ===== ترجمة الصفحة =====
+        const translations = {
+            en: {
+                home: "Home", products: "Products", offers: "Offers", wishlist: "Wishlist", cart: "Cart", login: "Login",
+                title: "Complete Your Order", name: "Full Name", email: "Email Address", phone: "Phone Number",
+                address: "Shipping Address", delivery: "<strong><i class='fas fa-truck'></i> Estimated Delivery:</strong> 2-3 Business Days",
+                map: "Our Location (Ramallah, Palestine)", payTitle: "Payment Method", card: "Credit / Debit Card",
+                cash: "Cash on Delivery", paypal: "PayPal", btn: "Place Order", sumTitle: "Order Summary",
+                sub: "Subtotal", ship: "Shipping", shipCost: "Free", total: "Total"
+            },
+            ar: {
+                home: "الرئيسية", products: "المنتجات", offers: "خصومات", wishlist: "المفضلة", cart: "السلة", login: "دخول",
+                title: "إكمال الطلب", name: "الاسم الكامل", email: "البريد الإلكتروني", phone: "رقم الهاتف",
+                address: "عنوان الشحن", delivery: "<strong><i class='fas fa-truck'></i> وقت التوصيل المتوقع:</strong> 2-3 أيام عمل",
+                map: "موقعنا (رام الله، فلسطين)", payTitle: "طرق الدفع", card: "بطاقة ائتمان / خصم",
+                cash: "الدفع عند الاستلام", paypal: "باي بال", btn: "تأكيد الطلب", sumTitle: "ملخص الطلب",
+                sub: "المجموع الفرعي", ship: "الشحن", shipCost: "مجاني", total: "الإجمالي"
+            }
+        };
+        let currentLang = 'en';
+
+        function toggleLang() {
+            currentLang = currentLang === 'en' ? 'ar' : 'en';
+            const t = translations[currentLang];
+            document.getElementById('linkHome').innerHTML = `<i class="fas fa-home"></i> ${t.home}`;
+            document.getElementById('linkProducts').innerHTML = `<i class="fas fa-box"></i> ${t.products}`;
+            document.getElementById('linkOffers').innerHTML = `<i class="fas fa-tags"></i> ${t.offers}`;
+            document.getElementById('linkWishlist').innerHTML = `<i class="fas fa-heart"></i> ${t.wishlist}`;
+            document.getElementById('linkCart').innerHTML = `<i class="fas fa-shopping-cart"></i> ${t.cart}`;
+            document.getElementById('linkLogin').innerHTML = `<i class="fas fa-user"></i> ${t.login}`;
+            document.getElementById('titleCheckout').innerText = t.title;
+            document.getElementById('labelName').innerText = t.name;
+            document.getElementById('labelEmail').innerText = t.email;
+            document.getElementById('labelPhone').innerText = t.phone;
+            document.getElementById('labelAddress').innerText = t.address;
+            document.getElementById('deliveryText').innerHTML = t.delivery;
+            document.getElementById('mapTitle').innerText = t.map;
+            document.getElementById('paymentTitle').innerText = t.payTitle;
+            document.getElementById('payCard').innerText = t.card;
+            document.getElementById('payCash').innerText = t.cash;
+            document.getElementById('payPaypal').innerText = t.paypal;
+            document.getElementById('placeOrderText').innerText = t.btn;
+            document.getElementById('summaryTitle').innerText = t.sumTitle;
+            document.getElementById('subTotalLabel').innerText = t.sub;
+            document.getElementById('shippingLabel').innerText = t.ship;
+            document.getElementById('shippingCost').innerText = t.shipCost;
+            document.getElementById('totalLabel').innerText = t.total;
+            document.getElementById('langBtn').innerHTML = currentLang === 'ar' ? '🇸🇦' : '🌐';
+        }
+
+        // ===== الدارك مود =====
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const btn = document.getElementById('themeBtn');
+            if (document.body.classList.contains('dark-mode')) { 
+                btn.innerHTML = '☀️'; 
+                localStorage.setItem('theme', 'dark'); 
+            } else { 
+                btn.innerHTML = '🌙'; 
+                localStorage.setItem('theme', 'light'); 
+            }
+        }
+
+        // ===== التحميل الأولي =====
+        window.onload = function() {
+            loadCheckoutSummary();
+            if (localStorage.getItem('theme') === 'dark') { 
+                document.body.classList.add('dark-mode'); 
+                document.getElementById('themeBtn').innerHTML = '☀️'; 
+            }
+            // تحميل اللغة
+            const savedLang = localStorage.getItem('lang') || 'en';
+            if (savedLang === 'ar') {
+                currentLang = 'ar';
+                toggleLang();
+            }
+        };
+    </script>
+</body>
+</html>

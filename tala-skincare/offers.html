@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Special Offers - Rose Skincare</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ===== متغيرات الورد ===== */
+        :root {
+            --rose: #ee8587;
+            --rose-dark: #c96c6f;
+            --rose-light: #fff1ee;
+            --brown: #4b2d29;
+            --cream: #fffaf7;
+            --white: #ffffff;
+            --text: #322725;
+            --muted: #746764;
+            --border: #f3dfda;
+            --shadow: 0 18px 40px rgba(153, 84, 77, 0.14);
+            
+            --bg-color: var(--cream);
+            --card-bg: var(--white);
+            --text-color: var(--text);
+            --primary: var(--rose);
+            --primary-dark: var(--rose-dark);
+            --primary-light: var(--rose-light);
+            --border-color: var(--border);
+        }
+
+        /* ===== الوضع الليلي ===== */
+        body.dark-mode {
+            --bg-color: #1f1418;
+            --card-bg: #2d1e22;
+            --text-color: #f5e2e0;
+            --border-color: #5a3d3a;
+            --shadow: 0 18px 40px rgba(0,0,0,0.3);
+            --primary: #f09a9c;
+            --primary-dark: #d68083;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: var(--bg-color);
+            color: var(--text-color);
+            transition: background 0.3s, color 0.3s;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        /* ===== الهيدر ===== */
+        .top-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--card-bg);
+            padding: 15px 30px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            margin-bottom: 30px;
+            transition: background 0.3s, border-color 0.3s;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .top-header .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--brown);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .top-header .logo i {
+            color: var(--rose);
+            font-size: 30px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .header-links {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .header-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            padding: 6px 12px;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+
+        .header-links a:hover {
+            background: var(--rose-light);
+            color: var(--rose-dark);
+        }
+
+        .header-links a i {
+            margin-right: 4px;
+        }
+
+        .header-links a .fa-heart {
+            color: var(--rose);
+        }
+
+        .header-links a .fa-shopping-cart {
+            color: var(--rose-dark);
+        }
+
+        .header-actions .theme-btn,
+        .header-actions .lang-switch-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            padding: 6px 14px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 14px;
+            color: var(--text-color);
+            transition: all 0.3s;
+        }
+
+        .header-actions .theme-btn:hover,
+        .header-actions .lang-switch-btn:hover {
+            background: var(--rose-light);
+            border-color: var(--rose);
+        }
+
+        /* ===== عنوان القسم ===== */
+        .section-title {
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            color: var(--brown);
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .section-title i {
+            color: var(--rose);
+            font-size: 28px;
+        }
+
+        .section-title span {
+            color: var(--rose);
+            position: relative;
+        }
+
+        .section-title span::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--rose);
+            border-radius: 10px;
+        }
+
+        /* ===== شبكة العروض ===== */
+        .offers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+            gap: 28px;
+        }
+
+        /* ===== بطاقة العرض ===== */
+        .offer-card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 25px 20px 20px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            transition: all 0.35s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .offer-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--rose), var(--rose-dark));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .offer-card:hover::before {
+            opacity: 1;
+        }
+
+        .offer-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px rgba(153, 84, 77, 0.18);
+        }
+
+        /* ===== صورة المنتج ===== */
+        .offer-card .image-wrapper {
+            width: 100%;
+            height: 190px;
+            border-radius: 16px;
+            background: var(--rose-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 2px solid var(--border-color);
+            transition: border-color 0.3s;
+        }
+
+        .offer-card:hover .image-wrapper {
+            border-color: var(--rose);
+        }
+
+        .offer-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 12px;
+            transition: transform 0.3s;
+        }
+
+        .offer-card:hover img {
+            transform: scale(1.05);
+        }
+
+        /* ===== اسم المنتج ===== */
+        .offer-card h3 {
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--text-color);
+            margin: 14px 0 6px;
+            line-height: 1.3;
+        }
+
+        /* ===== السعر ===== */
+        .price-box {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 14px;
+            margin: 8px 0 12px;
+        }
+
+        .old-price {
+            color: var(--muted);
+            text-decoration: line-through;
+            font-size: 15px;
+        }
+
+        .new-price {
+            color: var(--rose-dark);
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        /* ===== شارة الخصم ===== */
+        .discount-badge {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 5px 14px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+            z-index: 2;
+        }
+
+        /* ===== زر التسوق ===== */
+        .btn-shop {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 14px;
+            background: var(--rose);
+            color: white;
+            padding: 10px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(238, 133, 135, 0.25);
+        }
+
+        .btn-shop:hover {
+            background: var(--rose-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(201, 108, 111, 0.35);
+        }
+
+        .btn-shop i {
+            font-size: 14px;
+        }
+
+        /* ===== رسالة فارغة ===== */
+        .empty-offers {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--muted);
+        }
+
+        .empty-offers i {
+            font-size: 56px;
+            color: var(--border-color);
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .empty-offers h3 {
+            font-size: 22px;
+            color: var(--text-color);
+            margin-bottom: 8px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* ===== استجابة ===== */
+        @media (max-width: 768px) {
+            .top-header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 12px;
+                padding: 15px 20px;
+            }
+
+            .header-actions {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .header-links {
+                justify-content: center;
+            }
+
+            .section-title {
+                font-size: 26px;
+            }
+
+            .offers-grid {
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+                gap: 20px;
+            }
+
+            .offer-card .image-wrapper {
+                height: 150px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .top-header .logo {
+                font-size: 22px;
+            }
+
+            .header-links a {
+                font-size: 12px;
+                padding: 4px 8px;
+            }
+
+            .section-title {
+                font-size: 22px;
+            }
+
+            .offers-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 14px;
+            }
+
+            .offer-card {
+                padding: 16px 12px 14px;
+            }
+
+            .offer-card .image-wrapper {
+                height: 120px;
+            }
+
+            .offer-card h3 {
+                font-size: 13px;
+            }
+
+            .new-price {
+                font-size: 18px;
+            }
+
+            .old-price {
+                font-size: 12px;
+            }
+
+            .btn-shop {
+                padding: 7px 16px;
+                font-size: 12px;
+            }
+
+            .discount-badge {
+                font-size: 11px;
+                padding: 3px 10px;
+                top: 10px;
+                left: 10px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .offers-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- ===== الهيدر ===== -->
+        <header class="top-header">
+            <div class="logo">
+                <i class="fas fa-leaf"></i> ROSE
+            </div>
+            <div class="header-actions">
+                <div class="header-links">
+                    <a href="index.html" id="linkHome"><i class="fas fa-home"></i> Home</a>
+                    <a href="products.html" id="linkProducts"><i class="fas fa-box"></i> Products</a>
+                    <a href="offers.html" id="linkOffers" style="color: var(--rose);"><i class="fas fa-tags"></i> Offers</a>
+                    <a href="wishlist.html" id="linkWishlist"><i class="fas fa-heart"></i> Wishlist</a>
+                    <a href="cart.html" id="linkCart"><i class="fas fa-shopping-cart"></i> Cart</a>
+                    <a href="login.html" id="linkLogin"><i class="fas fa-user"></i> Login</a>
+                </div>
+                <button class="lang-switch-btn" onclick="toggleLang()" id="langBtn">🌐</button>
+                <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
+            </div>
+        </header>
+
+        <!-- ===== عنوان الصفحة ===== -->
+        <h2 class="section-title">
+            <i class="fas fa-tags"></i>
+            <span>Special</span> Offers
+        </h2>
+
+        <!-- ===== شبكة العروض ===== -->
+        <div class="offers-grid" id="offersGrid">
+            <!-- سيتم تعبئة العروض تلقائياً -->
+        </div>
+    </div>
+
+    <script>
+        // ===== تحميل العروض =====
+        function loadOffers() {
+            const grid = document.getElementById('offersGrid');
+            grid.innerHTML = '';
+            
+            const products = JSON.parse(localStorage.getItem('adminProducts')) || [];
+            
+            // تصفية المنتجات التي عليها خصم فقط
+            const offers = products.filter(p => p.discount && p.discount > 0);
+
+            if (offers.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-offers">
+                        <i class="fas fa-tags"></i>
+                        <h3>No Offers Available</h3>
+                        <p>Check back soon for exclusive deals!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            offers.forEach(p => {
+                const discountPercent = p.discount || 0;
+                
+                // استخراج السعر الرقمي
+                let priceNum = parseFloat(p.price);
+                if (isNaN(priceNum)) {
+                    priceNum = parseFloat(p.price.replace(' ₪', '').replace(' JD', ''));
+                }
+                if (isNaN(priceNum)) priceNum = 0;
+                
+                const discountedPrice = (priceNum * (1 - discountPercent / 100)).toFixed(2);
+                const originalPriceDisplay = priceNum.toFixed(2) + ' ₪';
+                const discountedPriceDisplay = discountedPrice + ' ₪';
+                
+                // صورة افتراضية إذا لم تكن موجودة
+                const imgSrc = p.img || 'https://via.placeholder.com/200/fff1ee/ee8587?text=Rose';
+
+                const card = document.createElement('div');
+                card.className = 'offer-card';
+                card.innerHTML = `
+                    <span class="discount-badge">-${discountPercent}%</span>
+                    <div class="image-wrapper">
+                        <img src="${imgSrc}" alt="${p.name}" loading="lazy">
+                    </div>
+                    <h3>${p.name}</h3>
+                    <div class="price-box">
+                        <span class="old-price">${originalPriceDisplay}</span>
+                        <span class="new-price">${discountedPriceDisplay}</span>
+                    </div>
+                    <a href="product-details.html?product=${encodeURIComponent(p.name)}&discount=${discountPercent}" class="btn-shop">
+                        <i class="fas fa-shopping-bag"></i> Shop Now
+                    </a>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // ===== الدارك مود =====
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const btn = document.getElementById('themeBtn');
+            if (document.body.classList.contains('dark-mode')) {
+                btn.innerHTML = '☀️';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                btn.innerHTML = '🌙';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // ===== الترجمة =====
+        const translations = {
+            en: {
+                home: "Home", products: "Products", offers: "Offers", wishlist: "Wishlist",
+                cart: "Cart", login: "Login", title: "Special Offers",
+                emptyTitle: "No Offers Available", emptyText: "Check back soon for exclusive deals!"
+            },
+            ar: {
+                home: "الرئيسية", products: "المنتجات", offers: "خصومات", wishlist: "المفضلة",
+                cart: "السلة", login: "دخول", title: "عروض خاصة",
+                emptyTitle: "لا توجد عروض", emptyText: "تفقد قريباً للحصول على عروض حصرية!"
+            }
+        };
+        let currentLang = 'en';
+
+        function toggleLang() {
+            currentLang = currentLang === 'en' ? 'ar' : 'en';
+            const t = translations[currentLang];
+            document.getElementById('linkHome').innerHTML = `<i class="fas fa-home"></i> ${t.home}`;
+            document.getElementById('linkProducts').innerHTML = `<i class="fas fa-box"></i> ${t.products}`;
+            document.getElementById('linkOffers').innerHTML = `<i class="fas fa-tags"></i> ${t.offers}`;
+            document.getElementById('linkWishlist').innerHTML = `<i class="fas fa-heart"></i> ${t.wishlist}`;
+            document.getElementById('linkCart').innerHTML = `<i class="fas fa-shopping-cart"></i> ${t.cart}`;
+            document.getElementById('linkLogin').innerHTML = `<i class="fas fa-user"></i> ${t.login}`;
+            
+            // تحديث عنوان الصفحة
+            document.querySelector('.section-title span').innerText = t.title.split(' ')[1] || t.title;
+            const emptyState = document.querySelector('.empty-offers');
+            if (emptyState) {
+                emptyState.querySelector('h3').innerText = t.emptyTitle;
+                emptyState.querySelector('p').innerText = t.emptyText;
+            }
+        }
+
+        // ===== التحميل الأولي =====
+        window.onload = function() {
+            loadOffers();
+            if (localStorage.getItem('theme') === 'dark') {
+                document.body.classList.add('dark-mode');
+                document.getElementById('themeBtn').innerHTML = '☀️';
+            }
+        };
+    </script>
+</body>
+</html>
